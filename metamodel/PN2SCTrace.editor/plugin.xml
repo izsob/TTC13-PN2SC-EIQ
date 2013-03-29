@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="pn2sctrace.presentation.Pn2sctraceModelWizardID"
+            name="%_UI_Pn2sctraceModelWizard_label"
+            class="pn2sctrace.presentation.Pn2sctraceModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/Pn2sctraceModelFile.gif">
+         <description>%_UI_Pn2sctraceModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="pn2sctrace.presentation.Pn2sctraceEditorID"
+            name="%_UI_Pn2sctraceEditor_label"
+            icon="icons/full/obj16/Pn2sctraceModelFile.gif"
+            extensions="pn2sctrace"
+            class="pn2sctrace.presentation.Pn2sctraceEditor"
+            contributorClass="pn2sctrace.presentation.Pn2sctraceActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

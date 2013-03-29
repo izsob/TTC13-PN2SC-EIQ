@@ -1,0 +1,7 @@
+# Tracing options for the StateCharts.diagram plug-in
+
+# Common issues
+StateCharts.diagram/debug=false
+
+# Visual IDs
+StateCharts.diagram/debug/visualID=false

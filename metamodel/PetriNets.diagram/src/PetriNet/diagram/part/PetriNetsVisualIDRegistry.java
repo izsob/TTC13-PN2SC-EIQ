@@ -1,0 +1,311 @@
+/*
+ * 
+ */
+package PetriNet.diagram.part;
+
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.tooling.runtime.structure.DiagramStructure;
+
+/**
+ * This registry is used to determine which type of visual object should be
+ * created for the corresponding Diagram, Node, ChildNode or Link represented
+ * by a domain model object.
+ * 
+ * @generated
+ */
+public class PetriNetsVisualIDRegistry {
+
+	/**
+	 * @generated
+	 */
+	private static final String DEBUG_KEY = "PetriNets.diagram/debug/visualID"; //$NON-NLS-1$
+
+	/**
+	 * @generated
+	 */
+	public static int getVisualID(View view) {
+		if (view instanceof Diagram) {
+			if (PetriNet.diagram.edit.parts.NetEditPart.MODEL_ID.equals(view
+					.getType())) {
+				return PetriNet.diagram.edit.parts.NetEditPart.VISUAL_ID;
+			} else {
+				return -1;
+			}
+		}
+		return PetriNet.diagram.part.PetriNetsVisualIDRegistry.getVisualID(view
+				.getType());
+	}
+
+	/**
+	 * @generated
+	 */
+	public static String getModelID(View view) {
+		View diagram = view.getDiagram();
+		while (view != diagram) {
+			EAnnotation annotation = view.getEAnnotation("Shortcut"); //$NON-NLS-1$
+			if (annotation != null) {
+				return (String) annotation.getDetails().get("modelID"); //$NON-NLS-1$
+			}
+			view = (View) view.eContainer();
+		}
+		return diagram != null ? diagram.getType() : null;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static int getVisualID(String type) {
+		try {
+			return Integer.parseInt(type);
+		} catch (NumberFormatException e) {
+			if (Boolean.TRUE.toString().equalsIgnoreCase(
+					Platform.getDebugOption(DEBUG_KEY))) {
+				PetriNet.diagram.part.PetriNetsDiagramEditorPlugin
+						.getInstance().logError(
+								"Unable to parse view type as a visualID number: "
+										+ type);
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static String getType(int visualID) {
+		return Integer.toString(visualID);
+	}
+
+	/**
+	 * @generated
+	 */
+	public static int getDiagramVisualID(EObject domainElement) {
+		if (domainElement == null) {
+			return -1;
+		}
+		if (PetriNet.PetriNetPackage.eINSTANCE.getNet().isSuperTypeOf(
+				domainElement.eClass())
+				&& isDiagram((PetriNet.Net) domainElement)) {
+			return PetriNet.diagram.edit.parts.NetEditPart.VISUAL_ID;
+		}
+		return -1;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static int getNodeVisualID(View containerView, EObject domainElement) {
+		if (domainElement == null) {
+			return -1;
+		}
+		String containerModelID = PetriNet.diagram.part.PetriNetsVisualIDRegistry
+				.getModelID(containerView);
+		if (!PetriNet.diagram.edit.parts.NetEditPart.MODEL_ID
+				.equals(containerModelID)
+				&& !"PetriNet".equals(containerModelID)) { //$NON-NLS-1$
+			return -1;
+		}
+		int containerVisualID;
+		if (PetriNet.diagram.edit.parts.NetEditPart.MODEL_ID
+				.equals(containerModelID)) {
+			containerVisualID = PetriNet.diagram.part.PetriNetsVisualIDRegistry
+					.getVisualID(containerView);
+		} else {
+			if (containerView instanceof Diagram) {
+				containerVisualID = PetriNet.diagram.edit.parts.NetEditPart.VISUAL_ID;
+			} else {
+				return -1;
+			}
+		}
+		switch (containerVisualID) {
+		case PetriNet.diagram.edit.parts.NetEditPart.VISUAL_ID:
+			if (PetriNet.PetriNetPackage.eINSTANCE.getPlace().isSuperTypeOf(
+					domainElement.eClass())) {
+				return PetriNet.diagram.edit.parts.PlaceEditPart.VISUAL_ID;
+			}
+			if (PetriNet.PetriNetPackage.eINSTANCE.getTransition()
+					.isSuperTypeOf(domainElement.eClass())) {
+				return PetriNet.diagram.edit.parts.TransitionEditPart.VISUAL_ID;
+			}
+			break;
+		}
+		return -1;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static boolean canCreateNode(View containerView, int nodeVisualID) {
+		String containerModelID = PetriNet.diagram.part.PetriNetsVisualIDRegistry
+				.getModelID(containerView);
+		if (!PetriNet.diagram.edit.parts.NetEditPart.MODEL_ID
+				.equals(containerModelID)
+				&& !"PetriNet".equals(containerModelID)) { //$NON-NLS-1$
+			return false;
+		}
+		int containerVisualID;
+		if (PetriNet.diagram.edit.parts.NetEditPart.MODEL_ID
+				.equals(containerModelID)) {
+			containerVisualID = PetriNet.diagram.part.PetriNetsVisualIDRegistry
+					.getVisualID(containerView);
+		} else {
+			if (containerView instanceof Diagram) {
+				containerVisualID = PetriNet.diagram.edit.parts.NetEditPart.VISUAL_ID;
+			} else {
+				return false;
+			}
+		}
+		switch (containerVisualID) {
+		case PetriNet.diagram.edit.parts.NetEditPart.VISUAL_ID:
+			if (PetriNet.diagram.edit.parts.PlaceEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			if (PetriNet.diagram.edit.parts.TransitionEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		case PetriNet.diagram.edit.parts.PlaceEditPart.VISUAL_ID:
+			if (PetriNet.diagram.edit.parts.PlaceNameEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		case PetriNet.diagram.edit.parts.TransitionEditPart.VISUAL_ID:
+			if (PetriNet.diagram.edit.parts.TransitionNameEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		case PetriNet.diagram.edit.parts.PlacePosttEditPart.VISUAL_ID:
+			if (PetriNet.diagram.edit.parts.WrappingLabelEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		case PetriNet.diagram.edit.parts.TransitionPostpEditPart.VISUAL_ID:
+			if (PetriNet.diagram.edit.parts.WrappingLabel2EditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		}
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static int getLinkWithClassVisualID(EObject domainElement) {
+		if (domainElement == null) {
+			return -1;
+		}
+		return -1;
+	}
+
+	/**
+	 * User can change implementation of this method to handle some specific
+	 * situations not covered by default logic.
+	 * 
+	 * @generated
+	 */
+	private static boolean isDiagram(PetriNet.Net element) {
+		return true;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static boolean checkNodeVisualID(View containerView,
+			EObject domainElement, int candidate) {
+		if (candidate == -1) {
+			//unrecognized id is always bad
+			return false;
+		}
+		int basic = getNodeVisualID(containerView, domainElement);
+		return basic == candidate;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static boolean isCompartmentVisualID(int visualID) {
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static boolean isSemanticLeafVisualID(int visualID) {
+		switch (visualID) {
+		case PetriNet.diagram.edit.parts.NetEditPart.VISUAL_ID:
+			return false;
+		case PetriNet.diagram.edit.parts.PlaceEditPart.VISUAL_ID:
+		case PetriNet.diagram.edit.parts.TransitionEditPart.VISUAL_ID:
+			return true;
+		default:
+			break;
+		}
+		return false;
+	}
+
+	/**
+	 * @generated
+	 */
+	public static final DiagramStructure TYPED_INSTANCE = new DiagramStructure() {
+		/**
+		 * @generated
+		 */
+		@Override
+		public int getVisualID(View view) {
+			return PetriNet.diagram.part.PetriNetsVisualIDRegistry
+					.getVisualID(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public String getModelID(View view) {
+			return PetriNet.diagram.part.PetriNetsVisualIDRegistry
+					.getModelID(view);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public int getNodeVisualID(View containerView, EObject domainElement) {
+			return PetriNet.diagram.part.PetriNetsVisualIDRegistry
+					.getNodeVisualID(containerView, domainElement);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public boolean checkNodeVisualID(View containerView,
+				EObject domainElement, int candidate) {
+			return PetriNet.diagram.part.PetriNetsVisualIDRegistry
+					.checkNodeVisualID(containerView, domainElement, candidate);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public boolean isCompartmentVisualID(int visualID) {
+			return PetriNet.diagram.part.PetriNetsVisualIDRegistry
+					.isCompartmentVisualID(visualID);
+		}
+
+		/**
+		 * @generated
+		 */
+		@Override
+		public boolean isSemanticLeafVisualID(int visualID) {
+			return PetriNet.diagram.part.PetriNetsVisualIDRegistry
+					.isSemanticLeafVisualID(visualID);
+		}
+	};
+
+}
