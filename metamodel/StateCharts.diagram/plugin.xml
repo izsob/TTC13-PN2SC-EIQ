@@ -58,7 +58,7 @@
       <?gmfgen generated="true"?>
       <objectContribution
             id="StateCharts.diagram.InitDiagram"
-            nameFilter="*.statechart"
+            nameFilter="*.statecharts"
             objectClass="org.eclipse.core.resources.IFile">
          <action
                label="%initDiagramActionLabel"
