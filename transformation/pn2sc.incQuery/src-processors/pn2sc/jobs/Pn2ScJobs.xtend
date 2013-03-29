@@ -91,7 +91,7 @@ class Pn2ScJobs {
 	def createMapPlaceRuleSpecification() {
 		newSimpleMatcherRuleSpecification(PlaceMatcher::factory,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(<PlaceMatch>newRecordingJob(ActivationState::APPEARED) [
+			newHashSet(<PlaceMatch>newStatelessJob(ActivationState::APPEARED) [
 				// create base b with b.name=p.name; and the state or, where or.contains={b}
 				var basic = stf.createBasic()
 				basic.name = p.name
@@ -126,7 +126,7 @@ class Pn2ScJobs {
 		
 		newSimpleMatcherRuleSpecification(TransitionMatcher::factory,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newRecordingJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
 	}
 	
 	/*
@@ -142,7 +142,7 @@ class Pn2ScJobs {
 		
 		newSimpleMatcherRuleSpecification(NextStateMatcher::factory,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newRecordingJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
 	}
 	
 	/*
@@ -176,7 +176,7 @@ class Pn2ScJobs {
 				
 		newSimpleMatcherRuleSpecification(AndPrecond2Matcher::factory,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newRecordingJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
 	}
 	
 	/*
@@ -245,7 +245,7 @@ class Pn2ScJobs {
 		
 		newSimpleMatcherRuleSpecification(OrPrecondMatcher::factory,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newRecordingJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
 	}
 	
 	/*
@@ -269,7 +269,7 @@ class Pn2ScJobs {
 		
 		newSimpleMatcherRuleSpecification(EmptyOrMatcher::factory,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newRecordingJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
 	}
 	
 	/*
@@ -287,7 +287,7 @@ class Pn2ScJobs {
 		
 		newSimpleMatcherRuleSpecification(TopOrMatcher::factory,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newRecordingJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
 	}
 	
 	/*
@@ -428,8 +428,8 @@ class Pn2ScJobs {
 		
 		newSimpleMatcherRuleSpecification(PostTMatcher::factory,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE,
-			newHashSet(newRecordingJob(ActivationState::APPEARED, processorAdd),
-				       newRecordingJob(ActivationState::DISAPPEARED, processorRemove)
+			newHashSet(newStatelessJob(ActivationState::APPEARED, processorAdd),
+				       newStatelessJob(ActivationState::DISAPPEARED, processorRemove)
 			))
 	}
 	
@@ -465,8 +465,8 @@ class Pn2ScJobs {
 		
 		newSimpleMatcherRuleSpecification(PreTMatcher::factory,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE,
-			newHashSet(newRecordingJob(ActivationState::APPEARED, processorAdd),
-				       newRecordingJob(ActivationState::DISAPPEARED, processorRemove)
+			newHashSet(newStatelessJob(ActivationState::APPEARED, processorAdd),
+				       newStatelessJob(ActivationState::DISAPPEARED, processorRemove)
 			))
 	}
 	

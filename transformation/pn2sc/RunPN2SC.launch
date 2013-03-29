@@ -14,7 +14,7 @@
 <booleanAttribute key="default" value="false"/>
 <booleanAttribute key="includeOptional" value="false"/>
 <stringAttribute key="location" value="${workspace_loc}/../runtime-RunPN2SC"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-basePath /home/bence/data/ttc/runtime-Instances/instances -sourceFile testcases/testcase11-in.petrinet -targetFile testcases/testcase11.statecharts -debugTransform 0 -changeDriven 0"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-basePath /home/benedek/data/git/TTC13-PN2SC-EIQ/transformation/instances -sourceFile performance/sp3000-pvg -debugTransform 0 -changeDriven 0"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-XX:MaxPermSize=256m -Xms4096m -Xmx4096m -XX:+UseCompressedOops"/>
 <stringAttribute key="pde.version" value="3.3"/>
