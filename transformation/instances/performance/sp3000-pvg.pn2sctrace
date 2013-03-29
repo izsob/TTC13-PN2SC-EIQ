@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<pn2sctrace:PN2SCTracemodel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pn2sctrace="http://pn2sctrace/1.0" xmlns:pnet="http://uam.es/PetriNets" xmlns:schart="http://uam.es/StateCharts">
-  <contains>
-    <source xsi:type="pnet:Place" href="sp3000-pvg.petrinet#//@places.0"/>
-    <target xsi:type="schart:OR" href="sp3000-pvg.statecharts#//@topState/@contains.0"/>
-  </contains>
-</pn2sctrace:PN2SCTracemodel>
