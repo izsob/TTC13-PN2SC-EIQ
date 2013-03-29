@@ -69,33 +69,17 @@ pattern traceElement(SmElement:NamedElement, Trace:MapTrace) {
 /*
  * AND precondition
  */
-//pattern andPrecond(P:Place, T:Transition) {
-//	// T is the transition with at least 2 pre-places
-//	Transition.prep(T, P);
-//	countPrePlaces == count find postT(_PX, T);
-//	check(countPrePlaces >= 2);	
-//	neg find nonCommonTPost(T);
-//}
-//or {
-//	// T is the transition with at least 2 post places
-//	Transition.postp(T, P);
-//	countPostPlaces == count find preT(_PX, T);
-//	check(countPostPlaces >= 2);	
-//	neg find nonCommonTPre(T);
-//}
-
-pattern andPrecond2(P: Place, T:Transition)
-{
+pattern andPrecond(P:Place, T:Transition) {
+	// T is the transition with at least 2 pre-places
 	Transition.prep(T, P);
-	find postT(PX1, T);
-	find postT(PX2, T);
-	PX1 != PX2;
+	countPrePlaces == count find postT(_PX, T);
+	check(countPrePlaces >= 2);	
 	neg find nonCommonTPost(T);
 } or {
+	// T is the transition with at least 2 post places
 	Transition.postp(T, P);
-	find preT(PX1, T);
-	find preT(PX2, T);
-	PX1 != PX2;	
+	countPostPlaces == count find preT(_PX, T);
+	check(countPostPlaces >= 2);	
 	neg find nonCommonTPre(T);
 }
 
@@ -165,21 +149,16 @@ pattern preT(P, T) {
  */
 pattern orPrecond(T:Transition) {
 	// the T transition has exactly one pre-place
-	find uniquePrePlace2(T);
+	find uniquePrePlace(T);
 	// the T transition has exactly one post-place
-	find uniquePostPlace2(T);
+	find uniquePostPlace(T);
 	// and there are no common pre or post transitions of the only places
 	neg find commonPostT(T);
 	neg find commonPreT(T);
 }
 
-//pattern uniquePrePlace(T:Transition) {
-//	1 == count find postT(_PX1, T);
-//}
-
-pattern uniquePrePlace2(T:Transition) {
-	find postT(_PX1, T);
-	neg find moreThanOnePrePlace(T);
+pattern uniquePrePlace(T:Transition) {
+	1 == count find postT(_PX1, T);
 }
 
 pattern moreThanOnePrePlace(T:Transition) {
@@ -189,13 +168,8 @@ pattern moreThanOnePrePlace(T:Transition) {
 }
 
 
-//pattern uniquePostPlace(T:Transition) {
-//	1 == count find preT(_PX1, T);
-//}
-
-pattern uniquePostPlace2(T:Transition) {
-	find preT(_PX1, T);
-	neg find moreThanOnePostPlace(T);
+pattern uniquePostPlace(T:Transition) {
+	1 == count find preT(_PX1, T);
 }
 
 pattern moreThanOnePostPlace(T:Transition) {

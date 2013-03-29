@@ -50,12 +50,28 @@
       </matcher>
    </extension>
    <extension
-         id="pn2sc.queries.andPrecond2"
+         id="pn2sc.queries.andPrecond"
          point="org.eclipse.incquery.runtime.matcherfactory">
       <matcher
-            factoryProvider="pn2sc.queries.andprecond2.AndPrecond2MatcherFactory$Provider"
-            id="pn2sc.queries.andPrecond2">
+            factoryProvider="pn2sc.queries.andprecond.AndPrecondMatcherFactory$Provider"
+            id="pn2sc.queries.andPrecond">
       </matcher>
+   </extension>
+   <extension
+         id="pn2sc.queries.andPrecond"
+         point="org.eclipse.incquery.runtime.xexpressionevaluator">
+      <evaluator
+            evaluatorClass="pn2sc.queries.andprecond.AndPrecondEvaluator1_1"
+            id="pn2sc.queries.andPrecond_1_1">
+      </evaluator>
+   </extension>
+   <extension
+         id="pn2sc.queries.andPrecond"
+         point="org.eclipse.incquery.runtime.xexpressionevaluator">
+      <evaluator
+            evaluatorClass="pn2sc.queries.andprecond.AndPrecondEvaluator2_1"
+            id="pn2sc.queries.andPrecond_2_1">
+      </evaluator>
    </extension>
    <extension
          id="pn2sc.queries.nonCommonTPre"
@@ -114,11 +130,11 @@
       </matcher>
    </extension>
    <extension
-         id="pn2sc.queries.uniquePrePlace2"
+         id="pn2sc.queries.uniquePrePlace"
          point="org.eclipse.incquery.runtime.matcherfactory">
       <matcher
-            factoryProvider="pn2sc.queries.uniquepreplace2.UniquePrePlace2MatcherFactory$Provider"
-            id="pn2sc.queries.uniquePrePlace2">
+            factoryProvider="pn2sc.queries.uniquepreplace.UniquePrePlaceMatcherFactory$Provider"
+            id="pn2sc.queries.uniquePrePlace">
       </matcher>
    </extension>
    <extension
@@ -130,11 +146,11 @@
       </matcher>
    </extension>
    <extension
-         id="pn2sc.queries.uniquePostPlace2"
+         id="pn2sc.queries.uniquePostPlace"
          point="org.eclipse.incquery.runtime.matcherfactory">
       <matcher
-            factoryProvider="pn2sc.queries.uniquepostplace2.UniquePostPlace2MatcherFactory$Provider"
-            id="pn2sc.queries.uniquePostPlace2">
+            factoryProvider="pn2sc.queries.uniquepostplace.UniquePostPlaceMatcherFactory$Provider"
+            id="pn2sc.queries.uniquePostPlace">
       </matcher>
    </extension>
    <extension

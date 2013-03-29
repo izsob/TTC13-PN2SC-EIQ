@@ -11,8 +11,8 @@ import pn2sc.queries.transition.TransitionMatch
 import pn2sc.queries.transition.TransitionMatcher
 import pn2sc.queries.nextstate.NextStateMatch
 import pn2sc.queries.nextstate.NextStateMatcher
-import pn2sc.queries.andprecond2.AndPrecond2Match
-import pn2sc.queries.andprecond2.AndPrecond2Matcher
+import pn2sc.queries.andprecond.AndPrecondMatch
+import pn2sc.queries.andprecond.AndPrecondMatcher
 import PetriNet.Net
 import pn2sc.queries.traceelement.TraceElementMatcher
 import pn2sc.queries.orprecond.OrPrecondMatch
@@ -48,9 +48,6 @@ import pn2sc.queries.place.PlaceMatch
 import pn2sc.queries.place.PlaceMatcher
 import pn2sc.queries.equiv.EquivMatcher
 import pn2sc.queries.equivcontains.EquivContainsMatcher
-import pn2sc.queries.andprecond2.AndPrecond2Match
-import org.eclipse.incquery.runtime.api.EngineManager
-import java.util.List
 
 class Pn2ScJobs {
 	long debug
@@ -111,17 +108,15 @@ class Pn2ScJobs {
 	 */
 	def createMapTransitionRuleSpecification() {
 		val IMatchProcessor<TransitionMatch> processor = [
-			val transition = it.t
-			
 			// create hyperEdge h with h.name=t.name (without an or container)
 			var hyperEdge = stf.createHyperEdge()
-			hyperEdge.name =transition.name
+			hyperEdge.name =t.name
 			
 			// add the hyperEdge to the StateChart resource
 			hyperEdge.moveTo(stateChartResource.contents) 
 			
 			// create trace from transition to hyperEdge
-			createTrace(transition, hyperEdge)
+			createTrace(t, hyperEdge)
 		]
 		
 		newSimpleMatcherRuleSpecification(TransitionMatcher::factory,
@@ -134,10 +129,7 @@ class Pn2ScJobs {
 	 */
 	def createNextStateRuleSpecification() {
 		val IMatchProcessor<NextStateMatch> processor = [
-			val prev = it.state1
-			val succ = it.state2
-			
-			prev.next += succ
+			state1.next += state2
 		]
 		
 		newSimpleMatcherRuleSpecification(NextStateMatcher::factory,
@@ -160,9 +152,7 @@ class Pn2ScJobs {
 	 * Rule specification of (both) "and" rule
 	 */
 	def createAndRuleSpecification() {
-		val IMatchProcessor<AndPrecond2Match> processor = [
-			val place = it.p
-			
+		val IMatchProcessor<AndPrecondMatch> processor = [
 			// collect places (pre places if the transition is a post transition, post places otherwise)
 			var EList<Place> placesSet
 			if (p.postt.contains(t))
@@ -171,10 +161,10 @@ class Pn2ScJobs {
 				placesSet = t.postp
 			
 			// run the AND transformation 
-			processAndRule(place, placesSet)
+			processAndRule(p, placesSet)
 		]
 				
-		newSimpleMatcherRuleSpecification(AndPrecond2Matcher::factory,
+		newSimpleMatcherRuleSpecification(AndPrecondMatcher::factory,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
 			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
 	}
@@ -210,11 +200,9 @@ class Pn2ScJobs {
 	 */
 	def createOrRuleSpecification() {
 		val IMatchProcessor<OrPrecondMatch> processor = [
-			val transition = it.t
-			
 			// get the only pre-place (q) and post-place (r)
-			val q = transition.prep.head
-			val r = transition.postp.head
+			val q = t.prep.head
+			val r = t.postp.head
 			
 			// merge transitions of post-place (r) into pre-place (q)
 			q.pret += r.pret
@@ -227,12 +215,12 @@ class Pn2ScJobs {
 			// add children elements to OR of the StateChart
 			equivContainsMatcher.forEachMatch(q,null)[state.moveTo(newP.contains)] // add equiv(q).contains
 			equivContainsMatcher.forEachMatch(r,null)[state.moveTo(newP.contains)] // add equiv(r).contains
-			var transitionState = equiv(transition)
+			var transitionState = equiv(t)
 			transitionState.moveTo(newP.contains)  // add the hyperedge ("equiv(t)") also
 			
 			// remove traces of q, transition and r
 			removeTrace(q)
-			removeTrace(transition)
+			removeTrace(t)
 			if (q != r) removeTrace(r) // remove only when it is not a cycle in the PetriNet
 			
 			// add new q --> OR (newP) to TraceModel
@@ -240,7 +228,7 @@ class Pn2ScJobs {
 			
 			// remove post-place and the transition from PetriNet
 			if (q != r) deletePlace(r) // delete only when it is not a cycle in the PetriNet
-			deleteTransition(transition)
+			deleteTransition(t)
 		]
 		
 		newSimpleMatcherRuleSpecification(OrPrecondMatcher::factory,
@@ -308,13 +296,11 @@ class Pn2ScJobs {
 	def createCPPlaceRule() {
 		// new place appeared
 		val IMatchProcessor<PlaceMatch> processorAdd = [
-			val place = it.p
-			
 			// create new basic state, and trace between place and basic
 			val basic = stf.createBasic()
-			basic.name = place.name
+			basic.name = p.name
 			basic.moveTo(stateChartResource.contents)
-			createTrace(place, basic)
+			createTrace(p, basic)
 			
 			doAllSnapshot("NewPlace")
 		]
@@ -333,11 +319,9 @@ class Pn2ScJobs {
 		
 		// a place's name updated
 		val IMatchProcessor<PlaceMatch> processorUpdate = [
-			val place = it.p
-			
 			// lookup trace of place and update the basic's name
-			val basic = equiv(place)
-			basic.name = place.name
+			val basic = equiv(p)
+			basic.name = p.name
 			
 			doAllSnapshot("UpdatePlace")
 		]
@@ -356,33 +340,27 @@ class Pn2ScJobs {
 	def createCPTransitionRule() {
 		// a transition is added
 		val IMatchProcessor<TransitionMatch> processorAdd = [
-			val transition = it.t
-			
 			val hyperEdge = stf.createHyperEdge()
-			hyperEdge.name = transition.name
+			hyperEdge.name = t.name
 			hyperEdge.moveTo(stateChartResource.contents)
-			createTrace(transition, hyperEdge)
+			createTrace(t, hyperEdge)
 			
 			doAllSnapshot("NewTransition")
 		]
 		
 		// a transition is deleted
 		val IMatchProcessor<TransitionMatch> processorDelete = [
-			val transition = it.t
-			
-			val hyperEdge = equiv(transition)
+			val hyperEdge = equiv(t)
 			stateChartResource.contents.remove(hyperEdge)
-			removeTrace(transition)
+			removeTrace(t)
 			
 			doAllSnapshot("DeleteTransition")
 		]
 		
 		// a transition's name is updated
 		val IMatchProcessor<TransitionMatch> processorUpdate = [
-			val transition = it.t
-			
-			val hyperEdge = equiv(transition)
-			hyperEdge.name = transition.name
+			val hyperEdge = equiv(t)
+			hyperEdge.name = t.name
 			
 			doAllSnapshot("UpdateTransition")
 		]
@@ -402,11 +380,8 @@ class Pn2ScJobs {
 	def createCPPlaceToTransitionRule() {
 		// a P->T connection is created
 		val IMatchProcessor<PostTMatch> processorAdd = [
-			val place = it.p
-			val transition = it.t
-			
-			val basic = equiv(place)
-			val hyperEdge = equiv(transition)
+			val basic = equiv(p)
+			val hyperEdge = equiv(t)
 			
 			basic.next += hyperEdge
 			
@@ -415,11 +390,8 @@ class Pn2ScJobs {
 		
 		// a P->T connection is deleted
 		val IMatchProcessor<PostTMatch> processorRemove = [
-			val place = it.p
-			val transition = it.t
-			
-			val basic = equiv(place)
-			val hyperEdge = equiv(transition)
+			val basic = equiv(p)
+			val hyperEdge = equiv(t)
 			
 			basic.next.remove(hyperEdge)
 			
@@ -439,11 +411,8 @@ class Pn2ScJobs {
 	def createCPTransitionToPlaceRule() {
 		// a T->P connection is created
 		val IMatchProcessor<PreTMatch> processorAdd = [
-			val place = it.p
-			val transition = it.t
-			
-			val basic = equiv(place)
-			val hyperEdge = equiv(transition)
+			val basic = equiv(p)
+			val hyperEdge = equiv(t)
 			
 			hyperEdge.next += basic
 			
@@ -452,11 +421,8 @@ class Pn2ScJobs {
 		
 		// a T->P connection is deleted
 		val IMatchProcessor<PreTMatch> processorRemove = [
-			val place = it.p
-			val transition = it.t
-			
-			val basic = equiv(place)
-			val hyperEdge = equiv(transition)
+			val basic = equiv(p)
+			val hyperEdge = equiv(t)
 			
 			hyperEdge.next.remove(basic)
 			

@@ -5,7 +5,7 @@ Bundle-SymbolicName: pn2sc.incQuery;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Export-Package: pn2sc.jobs,
  pn2sc.queries,
- pn2sc.queries.andprecond2,
+ pn2sc.queries.andprecond,
  pn2sc.queries.commonpostt,
  pn2sc.queries.commonpret,
  pn2sc.queries.emptyor,
@@ -30,8 +30,8 @@ Export-Package: pn2sc.jobs,
  pn2sc.queries.transition,
  pn2sc.queries.transitionwithtwopreplaces,
  pn2sc.queries.tranwithtwopostplaces,
- pn2sc.queries.uniquepostplace2,
- pn2sc.queries.uniquepreplace2
+ pn2sc.queries.uniquepostplace,
+ pn2sc.queries.uniquepreplace
 Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.emf.transaction,
  org.eclipse.incquery.runtime,
