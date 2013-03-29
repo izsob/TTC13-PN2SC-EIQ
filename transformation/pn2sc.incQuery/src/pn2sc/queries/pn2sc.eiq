@@ -1,0 +1,270 @@
+package pn2sc.queries
+
+import "http://uam.es/StateCharts"
+import "http://pn2sctrace/1.0"
+import "http://uam.es/PetriNets"
+
+/*
+ * Match places
+ */
+pattern place(p) {
+	Place(p);
+}
+
+/*
+ * Match transitions
+ */
+pattern transition(t) {
+	Transition(t);
+}
+
+/*
+ * State1 --next--> State2
+ * if P->T or T->P
+ */
+pattern nextState(State1, State2) {
+	// P --postt--> T
+	Place.postt(P,T);
+	
+	// state1 is the state, contained by the mapped OR of place 
+	find equivContains(P, State1);
+	
+	// state2 is the the mapped hyperedge of the transition
+	find equiv(T, State2);
+}
+or
+{
+	// T --postp--> P
+	Transition.postp(T,P);
+	
+	// state1 is the the mapped hyperedge of the transition
+	find equiv(T, State1);
+	
+	// state2 is the state, contained by the mapped OR of place 
+	find equivContains(P, State2);
+}
+
+/*
+ * The equiv relation mapping NamedElement->State
+ */
+pattern equiv(namesElement:NamedElement, state:State) {
+	MapTrace.source(Trace,namesElement);
+	MapTrace.target(Trace,state);
+}
+/*
+ * State is the contained state of equiv(NamedElement)
+ */
+pattern equivContains(namedElement:NamedElement, State:State) {
+	find equiv(namedElement, eqState);
+	OR.contains(eqState, State);
+}
+
+/*
+ * MapTrace is the trace of the NamedElement 
+ */
+pattern traceElement(SmElement:NamedElement, Trace:MapTrace) {	
+	MapTrace.source(Trace,SmElement);
+}
+
+/*
+ * AND precondition
+ */
+//pattern andPrecond(P:Place, T:Transition) {
+//	// T is the transition with at least 2 pre-places
+//	Transition.prep(T, P);
+//	countPrePlaces == count find postT(_PX, T);
+//	check(countPrePlaces >= 2);	
+//	neg find nonCommonTPost(T);
+//}
+//or {
+//	// T is the transition with at least 2 post places
+//	Transition.postp(T, P);
+//	countPostPlaces == count find preT(_PX, T);
+//	check(countPostPlaces >= 2);	
+//	neg find nonCommonTPre(T);
+//}
+
+pattern andPrecond2(P: Place, T:Transition)
+{
+	Transition.prep(T, P);
+	find postT(PX1, T);
+	find postT(PX2, T);
+	PX1 != PX2;
+	neg find nonCommonTPost(T);
+} or {
+	Transition.postp(T, P);
+	find preT(PX1, T);
+	find preT(PX2, T);
+	PX1 != PX2;	
+	neg find nonCommonTPre(T);
+}
+
+// place without common pre or post transition,
+// when T has >= 2 post places
+pattern nonCommonTPre(T:Transition) {
+	// T is a pre transition of P1 and P2,
+	// but P1 has another pre-transition (T1), which is not a pre-transition of P2
+	find tranWithTwoPostPlaces(T, P1, P2);
+	find preT(P1, T1);
+	neg find preT(P2, T1);
+} or {
+	// T is a pre transition of P1 and P2,
+	// but P1 has another post-transition (T1), which is not a post-transition of P2
+	find tranWithTwoPostPlaces(T, P1, P2);
+	find postT(P1, T1);
+	neg find postT(P2, T1);
+}
+
+/*
+ * T is a transition with P1 and P2 post-places
+ */
+pattern tranWithTwoPostPlaces(T:Transition, P1:Place, P2:Place) {
+	find preT(P1, T);
+	find preT(P2, T);
+	P1 != P2;
+}
+
+// place without common pre or post transition,
+// when T has >= 2 pre places
+pattern nonCommonTPost(T:Transition) {
+	// T is a post transition of P1 and P2,
+	// but P1 has another post-transition (T1), which is not a post-transition of P2
+	find transitionWithTwoPrePlaces(T, P1, P2);
+	find postT(P1, T1);
+	neg find postT(P2, T1);
+} or {
+	// T is a post transition of P1 and P2,
+	// but P1 has another pre-transition (T1), which is not a pre-transition of P2
+	find transitionWithTwoPrePlaces(T, P1, P2);
+	find preT(P1, T1);
+	neg find preT(P2, T1);
+}
+
+pattern transitionWithTwoPrePlaces(T:Transition, P1:Place, P2:Place) {
+	find postT(P1, T);
+	find postT(P2, T);
+	P1 != P2;
+}
+
+/*
+ * T is a post-transition of P
+ */
+pattern postT(P, T) {
+	Place.postt(P, T);
+}
+
+/*
+ * T is a pre-transition of P
+ */
+pattern preT(P, T) {
+	Place.pret(P, T);
+}
+
+/*
+ * OR precondition
+ */
+pattern orPrecond(T:Transition) {
+	// the T transition has exactly one pre-place
+	find uniquePrePlace2(T);
+	// the T transition has exactly one post-place
+	find uniquePostPlace2(T);
+	// and there are no common pre or post transitions of the only places
+	neg find commonPostT(T);
+	neg find commonPreT(T);
+}
+
+//pattern uniquePrePlace(T:Transition) {
+//	1 == count find postT(_PX1, T);
+//}
+
+pattern uniquePrePlace2(T:Transition) {
+	find postT(_PX1, T);
+	neg find moreThanOnePrePlace(T);
+}
+
+pattern moreThanOnePrePlace(T:Transition) {
+	find postT(PX1, T);
+	find postT(PX2, T);
+	PX1 != PX2;
+}
+
+
+//pattern uniquePostPlace(T:Transition) {
+//	1 == count find preT(_PX1, T);
+//}
+
+pattern uniquePostPlace2(T:Transition) {
+	find preT(_PX1, T);
+	neg find moreThanOnePostPlace(T);
+}
+
+pattern moreThanOnePostPlace(T:Transition) {
+	find preT(PX1, T);
+	find preT(PX2, T);
+	PX1 != PX2;
+}
+
+/*
+ * T is a transition which has a pre- and post-place with common pre-transition 
+ */
+pattern commonPreT(T:Transition) {
+	find prePostPlaces(PreP, PostP, T);
+	find tranWithTwoPostPlaces(_, PreP, PostP);
+}
+
+/*
+ * T is a transition which has a pre- and post-place with common post-transition
+ */
+pattern commonPostT(T:Transition) {
+	find prePostPlaces(PreP, PostP, T);
+	find transitionWithTwoPrePlaces(_, PreP, PostP);
+}
+
+/*
+ * PrePlace --> Transition --> PostPlace
+ */
+pattern prePostPlaces(PrePlace:Place, PostPlace:Place, T:Transition) {
+	Transition.prep(T, PrePlace);
+	Transition.postp(T, PostPlace);
+	PrePlace != PostPlace;
+}
+
+/*
+ * orState is the top OR element, if it is the only root element
+ */
+pattern topOr(orState:OR) {
+	find singleRootOr();
+	find rootOr(orState);
+}
+
+pattern singleRootOr() = {1 == count find rootOr(_);}
+
+/*
+ * rootOr is an OR, and is not contained by anything
+ */
+pattern rootOr(rootOr:OR) {
+	OR(rootOr);
+	neg find hasRcontains(rootOr);
+}
+
+/*
+ * orState is empty, if it does not contains or contained by anything
+ */
+pattern emptyOr(orState:OR) {
+	neg find hasRcontains(orState);
+	neg find hasContains(orState);
+}
+
+/*
+ * from is a Compound contained by anything
+ */
+pattern hasRcontains(from) {
+	Compound.rcontains(from, _to);
+}
+
+/*
+ * from is a Compound containing anything
+ */
+pattern hasContains(from) {
+	Compound.contains(from, _to);
+}

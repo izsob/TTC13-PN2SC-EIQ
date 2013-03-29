@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.pde.ui.RuntimeWorkbench">
+<booleanAttribute key="append.args" value="true"/>
+<stringAttribute key="application" value="pn2sc.pn2sc"/>
+<booleanAttribute key="askclear" value="true"/>
+<booleanAttribute key="automaticAdd" value="true"/>
+<booleanAttribute key="automaticValidate" value="false"/>
+<stringAttribute key="bootstrap" value=""/>
+<stringAttribute key="checked" value="[NONE]"/>
+<booleanAttribute key="clearConfig" value="false"/>
+<booleanAttribute key="clearws" value="false"/>
+<booleanAttribute key="clearwslog" value="false"/>
+<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/RunPN2SC"/>
+<booleanAttribute key="default" value="false"/>
+<booleanAttribute key="includeOptional" value="false"/>
+<stringAttribute key="location" value="${workspace_loc}/../runtime-RunPN2SC"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-basePath /home/bence/data/ttc/runtime-Instances/instances -sourceFile testcases/testcase11-in.petrinet -targetFile testcases/testcase11.statecharts -debugTransform 0 -changeDriven 0"/>
+<stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-XX:MaxPermSize=256m -Xms4096m -Xmx4096m -XX:+UseCompressedOops"/>
+<stringAttribute key="pde.version" value="3.3"/>
+<stringAttribute key="product" value="org.eclipse.platform.ide"/>
+<stringAttribute key="selected_target_plugins" value="PN2SCTrace@default:default,PetriNets@default:default,StateCharts@default:default,com.google.guava@default:default,com.google.inject@default:default,com.ibm.icu@default:default,javax.inject@default:default,org.antlr.runtime@default:default,org.apache.log4j@default:default,org.eclipse.core.commands@default:default,org.eclipse.core.contenttype@default:default,org.eclipse.core.databinding.observable@default:default,org.eclipse.core.databinding.property@default:default,org.eclipse.core.databinding@default:default,org.eclipse.core.expressions@default:default,org.eclipse.core.filesystem.linux.x86_64@default:false,org.eclipse.core.filesystem@default:default,org.eclipse.core.jobs@default:default,org.eclipse.core.resources@default:default,org.eclipse.core.runtime.compatibility.registry@default:false,org.eclipse.core.runtime@default:true,org.eclipse.core.variables@default:default,org.eclipse.debug.core@default:default,org.eclipse.emf.common@default:default,org.eclipse.emf.databinding@default:default,org.eclipse.emf.ecore.change@default:default,org.eclipse.emf.ecore.xmi@default:default,org.eclipse.emf.ecore@default:default,org.eclipse.emf.edit@default:default,org.eclipse.emf.transaction@default:default,org.eclipse.emf.validation@default:default,org.eclipse.emf.workspace@default:default,org.eclipse.equinox.app@default:default,org.eclipse.equinox.common@2:true,org.eclipse.equinox.preferences@default:default,org.eclipse.equinox.registry@default:default,org.eclipse.incquery.patternlanguage.emf@default:default,org.eclipse.incquery.patternlanguage@default:default,org.eclipse.incquery.runtime.base.itc@default:default,org.eclipse.incquery.runtime.base@default:default,org.eclipse.incquery.runtime.evm@default:default,org.eclipse.incquery.runtime.rete@default:default,org.eclipse.incquery.runtime@default:default,org.eclipse.jdt.compiler.apt@default:false,org.eclipse.jdt.compiler.tool@default:false,org.eclipse.jdt.core@default:default,org.eclipse.jdt.debug@default:default,org.eclipse.jdt.launching@default:default,org.eclipse.osgi@-1:true,org.eclipse.text@default:default,org.eclipse.xtend.lib@default:default,org.eclipse.xtext.common.types@default:default,org.eclipse.xtext.logging@default:false,org.eclipse.xtext.util@default:default,org.eclipse.xtext.xbase.lib@default:default,org.eclipse.xtext.xbase@default:default,org.eclipse.xtext@default:default"/>
+<stringAttribute key="selected_workspace_plugins" value="pn2sc.common@default:default,pn2sc.incQuery@default:default,pn2sc@default:default"/>
+<booleanAttribute key="show_selected_only" value="false"/>
+<stringAttribute key="templateConfig" value="${target_home}/configuration/config.ini"/>
+<booleanAttribute key="tracing" value="false"/>
+<booleanAttribute key="useCustomFeatures" value="false"/>
+<booleanAttribute key="useDefaultConfig" value="true"/>
+<booleanAttribute key="useDefaultConfigArea" value="true"/>
+<booleanAttribute key="useProduct" value="false"/>
+<stringAttribute key="yk-options" value="&#10;additional-options2=onexit\=snapshot&#10;"/>
+</launchConfiguration>
