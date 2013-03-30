@@ -244,6 +244,16 @@ class Pn2ScJobs {
 	}
 	
 	/*
+	 * Get rules for performing AND and OR rules, and for creating top AND state
+	 */
+	def getAndOrRules() {
+		newHashSet(
+			createAndRuleSpecification() as RuleSpecification<? extends IPatternMatch>,
+			createOrRuleSpecification() as RuleSpecification<? extends IPatternMatch>
+		)
+	}
+	
+	/*
 	 * Create the StateChart containing the AND containing the top level OR
 	 */
 	def createTopand() {
@@ -262,16 +272,13 @@ class Pn2ScJobs {
 	}
 	
 	/*
-	 * Get rules for performing AND and OR rules, and for creating top AND state
+	 * Create top AND rule
 	 */
-	def getAndOrRules() {
+	def getTopAndRules() {
 		newHashSet(
-			createAndRuleSpecification() as RuleSpecification<? extends IPatternMatch>,
-			createOrRuleSpecification() as RuleSpecification<? extends IPatternMatch>,
 			createTopand() as RuleSpecification<? extends IPatternMatch>
 		)
 	}
-	
 	
 	// change propagation part
 	

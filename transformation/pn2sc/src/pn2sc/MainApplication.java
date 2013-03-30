@@ -155,6 +155,9 @@ public class MainApplication implements IApplication {
 		rules = pn2ScJobs.getAndOrRules();
 		executionSchema = EventDrivenVM.createExecutionSchema(engine, schedulerFactory, rules);
 		executionSchema.dispose();
+		rules = pn2ScJobs.getTopAndRules();
+		executionSchema = EventDrivenVM.createExecutionSchema(engine, schedulerFactory, rules);
+		executionSchema.dispose();
 	}
 
 	public void changePropagation() {
