@@ -6,9 +6,9 @@ import org.eclipse.incquery.runtime.evm.api.Activation;
 import org.eclipse.incquery.runtime.evm.api.ActivationState;
 import org.eclipse.incquery.runtime.evm.api.Context;
 import org.eclipse.incquery.runtime.evm.api.Job;
-import org.eclipse.incquery.runtime.evm.specific.RecordingJob;
+import org.eclipse.incquery.runtime.evm.specific.StatelessJob;
 
-public class EnableableJob<Match extends IPatternMatch> extends RecordingJob<Match> {
+public class EnableableJob<Match extends IPatternMatch> extends StatelessJob<Match> {
 
 	public static final String EXECUTE_JOB = "org.eclipse.incquery.evm.ExecEnabled";
 
