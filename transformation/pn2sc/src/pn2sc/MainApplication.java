@@ -148,23 +148,13 @@ public class MainApplication implements IApplication {
 		// execute rule engine
 		executionSchema = EventDrivenVM.createExecutionSchema(engine, schedulerFactory, rules);
 		executionSchema.dispose();
-		rules.clear();
 	}
 
 	public void transformPn2Sc() {
-		// execute AND and OR rules
+		// execute AND and OR rules, and StateChart creation at the end
 		rules = pn2ScJobs.getAndOrRules();
-
 		executionSchema = EventDrivenVM.createExecutionSchema(engine, schedulerFactory, rules);
 		executionSchema.dispose();
-		rules.clear();
-		
-		// clean orphaned root ORs; and create StateChart root
-		rules = pn2ScJobs.getFinalisationRules();
-
-		executionSchema = EventDrivenVM.createExecutionSchema(engine, schedulerFactory, rules);
-		executionSchema.dispose();
-		rules.clear();
 	}
 
 	public void changePropagation() {

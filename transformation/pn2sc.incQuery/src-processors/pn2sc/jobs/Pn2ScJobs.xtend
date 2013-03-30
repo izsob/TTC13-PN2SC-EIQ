@@ -48,6 +48,7 @@ import pn2sc.queries.place.PlaceMatch
 import pn2sc.queries.place.PlaceMatcher
 import pn2sc.queries.equiv.EquivMatcher
 import pn2sc.queries.equivcontains.EquivContainsMatcher
+import java.util.List
 
 class Pn2ScJobs {
 	long debug
@@ -213,8 +214,14 @@ class Pn2ScJobs {
 			newP.moveTo(stateChartResource.contents)
 			
 			// add children elements to OR of the StateChart
-			equivContainsMatcher.forEachMatch(q,null)[state.moveTo(newP.contains)] // add equiv(q).contains
-			equivContainsMatcher.forEachMatch(r,null)[state.moveTo(newP.contains)] // add equiv(r).contains
+			equivContainsMatcher.forEachMatch(q,null)[
+				state.moveTo(newP.contains) // add equiv(q).contains
+			]
+			equivContainsMatcher.forEachMatch(r,null)[
+				state.moveTo(newP.contains) // add equiv(r).contains
+			]
+			stateChartResource.contents.remove(equiv(q)) // remove old parents
+			stateChartResource.contents.remove(equiv(r)) // remove old parents
 			var transitionState = equiv(t)
 			transitionState.moveTo(newP.contains)  // add the hyperedge ("equiv(t)") also
 			
@@ -232,30 +239,6 @@ class Pn2ScJobs {
 		]
 		
 		newSimpleMatcherRuleSpecification(OrPrecondMatcher::factory,
-			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
-	}
-	
-	/*
-	 * Get rules for performing AND and OR rules
-	 */
-	def getAndOrRules() {
-		newHashSet(
-			createAndRuleSpecification() as RuleSpecification<? extends IPatternMatch>,
-			createOrRuleSpecification() as RuleSpecification<? extends IPatternMatch>
-		)
-	}
-	
-
-	/*
-	 * Remove OR states in the root without content
-	 */	
-	def createOrRemoveRuleSpecification() {
-		val IMatchProcessor<EmptyOrMatch> processor = [
-			stateChartResource.contents.remove(orState)
-		]
-		
-		newSimpleMatcherRuleSpecification(EmptyOrMatcher::factory,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
 			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
 	}
@@ -279,14 +262,16 @@ class Pn2ScJobs {
 	}
 	
 	/*
-	 * Get rules for creating root StateChart and removing orphaned ORs
+	 * Get rules for performing AND and OR rules, and for creating top AND state
 	 */
-	def getFinalisationRules() {
+	def getAndOrRules() {
 		newHashSet(
-			createOrRemoveRuleSpecification() as RuleSpecification<? extends IPatternMatch>,
+			createAndRuleSpecification() as RuleSpecification<? extends IPatternMatch>,
+			createOrRuleSpecification() as RuleSpecification<? extends IPatternMatch>,
 			createTopand() as RuleSpecification<? extends IPatternMatch>
 		)
 	}
+	
 	
 	// change propagation part
 	
