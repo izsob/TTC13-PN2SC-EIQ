@@ -10,11 +10,11 @@
 <booleanAttribute key="clearConfig" value="false"/>
 <booleanAttribute key="clearws" value="false"/>
 <booleanAttribute key="clearwslog" value="false"/>
-<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/RunPN2SC"/>
+<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/RunPN2SC CP"/>
 <booleanAttribute key="default" value="false"/>
 <booleanAttribute key="includeOptional" value="false"/>
 <stringAttribute key="location" value="${workspace_loc}/../runtime-RunPN2SC"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-basePath /home/ubuntu/ttc13/git/TTC13-PN2SC-EIQ/transformation/instances -sourceFile testcases/testcase1-in -debugTransform 1 -changeDriven 1"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-basePath /home/ubuntu/ttc13/git/TTC13-PN2SC-EIQ/transformation/instances -sourceFile performance/sp200-pvg -debugTransform 1 -changeDriven 1"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-XX:MaxPermSize=256m -Xmx1024m"/>
 <stringAttribute key="pde.version" value="3.3"/>

@@ -19,7 +19,8 @@ echo
 # run transformation
 /home/ubuntu/ttc13/git/TTC13-PN2SC-EIQ/transformation/pn2sc.native/product/pn2sc/eclipse \
   -basePath $path -sourceFile ${sourceFile} \
-  -debugTransform 0 -changeDriven 0
+  -debugTransform 0 -changeDriven 0 \
+  -vmargs -Xmx896m -Xms896m
 
 echo
 echo "Output is saved to ${path}/${sourceFile}.[petrinet | statecharts | pn2sctrace]"

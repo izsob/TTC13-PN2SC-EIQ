@@ -473,7 +473,7 @@ class Pn2ScJobs {
 	 * @param type: type of the snapshot 
 	 */
 	def doSnapshot(Resource resource, String postfix, String type) {
-		val path = basePath + "/test/dbg" + snapshotNumber + type + postfix
+		val path = basePath + "/snapshots/dbg" + snapshotNumber + type + postfix
 		val file = new File(path)
 		file.createNewFile()
 		var output = new FileOutputStream(file);
