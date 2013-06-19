@@ -4,21 +4,22 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Level;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.eclipse.incquery.runtime.api.EngineManager;
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine;
 import org.eclipse.incquery.runtime.api.IncQueryEngine;
-import org.eclipse.incquery.runtime.evm.api.Context;
 import org.eclipse.incquery.runtime.evm.api.EventDrivenVM;
 import org.eclipse.incquery.runtime.evm.api.ExecutionSchema;
+import org.eclipse.incquery.runtime.evm.api.Job;
 import org.eclipse.incquery.runtime.evm.api.RuleSpecification;
 import org.eclipse.incquery.runtime.evm.api.Scheduler.ISchedulerFactory;
-import org.eclipse.incquery.runtime.evm.specific.UpdateCompleteBasedScheduler;
+import org.eclipse.incquery.runtime.evm.specific.Schedulers;
+import org.eclipse.incquery.runtime.evm.specific.event.IncQueryEventRealm;
+import org.eclipse.incquery.runtime.evm.specific.job.EnableJob;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
 import PetriNet.PetriNetPackage;
@@ -26,13 +27,11 @@ import PetriNet.PetriNetPackage;
 import com.google.common.base.Stopwatch;
 
 import pn2sc.common.Config;
-import pn2sc.common.EnableableJob;
 import pn2sc.common.ManageRealm;
 import pn2sc.jobs.Pn2ScJobs;
-import pn2sc.queries.GroupOfFilePn2sc;
-import pn2sc.queries.equiv.EquivMatcher;
-import pn2sc.queries.equivcontains.EquivContainsMatcher;
-import pn2sc.queries.traceelement.TraceElementMatcher;
+import pn2sc.queries.EquivContainsMatcher;
+import pn2sc.queries.EquivMatcher;
+import pn2sc.queries.TraceElementMatcher;
 import pn2sctrace.PN2SCTracemodel;
 import pn2sctrace.Pn2sctraceFactory;
 
@@ -46,7 +45,7 @@ public class MainApplication implements IApplication {
 	private PN2SCTracemodel traceModel;
 	private ResourceSetImpl resourceSet;
 	private Stopwatch stopwatch;
-	private IncQueryEngine engine;
+	private AdvancedIncQueryEngine engine;
 	private ISchedulerFactory schedulerFactory;
 	private Set<RuleSpecification<?>> rules;
 	private ExecutionSchema executionSchema;
@@ -74,9 +73,9 @@ public class MainApplication implements IApplication {
 		rules = new HashSet<RuleSpecification<?>>();
 		pn2ScJobs = new Pn2ScJobs(engine, petriNetResource, stateChartResource, traceResource, config.getBasePath(), config.getDebugTransform());
 		pn2ScJobs.setMatchers(
-				new EquivMatcher(engine), 
-				new EquivContainsMatcher(engine), 
-				new TraceElementMatcher(engine));
+				EquivMatcher.on(engine), 
+				EquivContainsMatcher.on(engine), 
+				TraceElementMatcher.on(engine));
 
 		// perform initialisation and then transformation
 		initialisation();
@@ -127,14 +126,15 @@ public class MainApplication implements IApplication {
 
 		// start engine for the resources
 		try {
-			engine = EngineManager.getInstance().getIncQueryEngine(resourceSet);
-			new GroupOfFilePn2sc().prepare(engine);
+			engine = AdvancedIncQueryEngine.from(IncQueryEngine.on(resourceSet));
+			//new GroupOfFilePn2sc().prepare(engine);
 		} catch (IncQueryException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
 		
-		schedulerFactory = UpdateCompleteBasedScheduler.getIQBaseSchedulerFactory(engine);
+		//schedulerFactory = UpdateCompleteBasedScheduler.getIQBaseSchedulerFactory(engine);
+		schedulerFactory = Schedulers.getIQEngineSchedulerFactory(engine); 
 		
 	}
 
@@ -146,7 +146,7 @@ public class MainApplication implements IApplication {
 		rules = pn2ScJobs.getInitialisationRules();
 
 		// execute rule engine
-		executionSchema = EventDrivenVM.createExecutionSchema(engine, schedulerFactory, rules);
+		executionSchema = EventDrivenVM.createExecutionSchema(IncQueryEventRealm.create(engine), schedulerFactory, rules);
 		executionSchema.dispose();
 		rules.clear();
 	}
@@ -155,14 +155,14 @@ public class MainApplication implements IApplication {
 		// execute AND and OR rules
 		rules = pn2ScJobs.getAndOrRules();
 
-		executionSchema = EventDrivenVM.createExecutionSchema(engine, schedulerFactory, rules);
+		executionSchema = EventDrivenVM.createExecutionSchema(IncQueryEventRealm.create(engine), schedulerFactory, rules);
 		executionSchema.dispose();
 		rules.clear();
 		
 		// clean orphaned root ORs; and create StateChart root
 		rules = pn2ScJobs.getFinalisationRules();
 
-		executionSchema = EventDrivenVM.createExecutionSchema(engine, schedulerFactory, rules);
+		executionSchema = EventDrivenVM.createExecutionSchema(IncQueryEventRealm.create(engine), schedulerFactory, rules);
 		executionSchema.dispose();
 		rules.clear();
 	}
@@ -181,16 +181,24 @@ public class MainApplication implements IApplication {
 			engine.getBaseIndex().registerEStructuralFeatures(features);
 			//enginePN.getLogger().setLevel(Level.DEBUG);
 			
-			// create execution schema
-			executionSchema = EventDrivenVM.createExecutionSchema(engine, schedulerFactory);
-			Context context = executionSchema.getContext();
-			// fire initial rules, but disable executing actions for pre-existing elements
-			context.put(EnableableJob.EXECUTE_JOB, false);
-			for(RuleSpecification<?> ruleSpecification : rules) {
-				executionSchema.addRule(ruleSpecification, true);
+			// create execution schema, set enablejobs to false before it, and true after
+			for(RuleSpecification<?> ruleSpec : rules) {
+				for(Job<?> job : ruleSpec.getJobs().values()) {
+					if (job instanceof EnableJob) {
+						((EnableJob<?>) job).setEnabled(false);
+					}
+				}
 			}
-			// enable execution actions for newly created elements
-			context.put(EnableableJob.EXECUTE_JOB, true);
+			executionSchema = EventDrivenVM.createExecutionSchema(IncQueryEventRealm.create(engine), schedulerFactory, rules);
+			for(RuleSpecification<?> ruleSpec : rules) {
+				for(Job<?> job : ruleSpec.getJobs().values()) {
+					if (job instanceof EnableJob) {
+						((EnableJob<?>) job).setEnabled(true);
+					}
+				}
+			}
+			//Context context = executionSchema.getContext();
+			//context.put(EnableableJob.EXECUTE_JOB, false);
 
 			/* modify instance model */
 			pn2ScJobs.manipulate();

@@ -1,53 +1,51 @@
 package pn2sc.jobs
 
 import statecharts.StatechartsFactory
-import org.eclipse.incquery.runtime.evm.specific.DefaultActivationLifeCycle
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.incquery.runtime.api.IMatchProcessor
-import org.eclipse.incquery.runtime.evm.api.ActivationState
 import pn2sctrace.Pn2sctraceFactory
 import pn2sctrace.PN2SCTracemodel
-import pn2sc.queries.transition.TransitionMatch
-import pn2sc.queries.transition.TransitionMatcher
-import pn2sc.queries.nextstate.NextStateMatch
-import pn2sc.queries.nextstate.NextStateMatcher
-import pn2sc.queries.andprecond.AndPrecondMatch
-import pn2sc.queries.andprecond.AndPrecondMatcher
 import PetriNet.Net
-import pn2sc.queries.traceelement.TraceElementMatcher
-import pn2sc.queries.orprecond.OrPrecondMatch
-import pn2sc.queries.orprecond.OrPrecondMatcher
-import pn2sc.queries.topor.TopOrMatch
-import pn2sc.queries.topor.TopOrMatcher
 import statecharts.Statechart
 import java.util.ArrayList
 import java.io.FileOutputStream
-import pn2sc.queries.emptyor.EmptyOrMatch
-import pn2sc.queries.emptyor.EmptyOrMatcher
 import PetriNet.NamedElement
 import statecharts.State
 import PetriNet.Place
 import PetriNet.Transition
-import pn2sc.common.EnableableJob
 import java.io.File
 import org.eclipse.emf.common.util.EList
-import pn2sc.queries.postt.PostTMatch
-import pn2sc.queries.postt.PostTMatcher
-import pn2sc.queries.pret.PreTMatch
-import pn2sc.queries.pret.PreTMatcher
 
 import static org.eclipse.incquery.runtime.evm.specific.Rules.*
 import static org.eclipse.incquery.runtime.evm.specific.Jobs.*
 import PetriNet.PetriNetFactory
-import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.evm.api.RuleSpecification
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.emf.ecore.EObject
 import java.util.Collection
-import pn2sc.queries.place.PlaceMatch
-import pn2sc.queries.place.PlaceMatcher
-import pn2sc.queries.equiv.EquivMatcher
-import pn2sc.queries.equivcontains.EquivContainsMatcher
+import pn2sc.queries.EquivMatcher
+import pn2sc.queries.TraceElementMatcher
+import pn2sc.queries.EquivContainsMatcher
+import pn2sc.queries.TransitionMatch
+import pn2sc.queries.TransitionMatcher
+import pn2sc.queries.NextStateMatch
+import pn2sc.queries.NextStateMatcher
+import pn2sc.queries.AndPrecondMatch
+import pn2sc.queries.AndPrecondMatcher
+import pn2sc.queries.OrPrecondMatch
+import pn2sc.queries.OrPrecondMatcher
+import pn2sc.queries.EmptyOrMatch
+import pn2sc.queries.EmptyOrMatcher
+import pn2sc.queries.TopOrMatch
+import pn2sc.queries.TopOrMatcher
+import pn2sc.queries.PlaceMatch
+import pn2sc.queries.PlaceMatcher
+import pn2sc.queries.PostTMatch
+import pn2sc.queries.PostTMatcher
+import pn2sc.queries.PreTMatch
+import pn2sc.queries.PreTMatcher
+import org.eclipse.incquery.runtime.evm.specific.lifecycle.DefaultActivationLifeCycle
+import org.eclipse.incquery.runtime.evm.specific.event.IncQueryActivationStateEnum
 
 class Pn2ScJobs {
 	long debug
@@ -86,9 +84,9 @@ class Pn2ScJobs {
 	 * Map a PetriNet place to a base state in the StateChart with an "or" container.
 	 */
 	def createMapPlaceRuleSpecification() {
-		newSimpleMatcherRuleSpecification(PlaceMatcher::factory,
+		newSimpleMatcherRuleSpecification(PlaceMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(<PlaceMatch>newStatelessJob(ActivationState::APPEARED) [
+			newHashSet(<PlaceMatch>newStatelessJob(IncQueryActivationStateEnum::APPEARED) [
 				// create base b with b.name=p.name; and the state or, where or.contains={b}
 				var basic = stf.createBasic()
 				basic.name = p.name
@@ -119,9 +117,9 @@ class Pn2ScJobs {
 			createTrace(t, hyperEdge)
 		]
 		
-		newSimpleMatcherRuleSpecification(TransitionMatcher::factory,
+		newSimpleMatcherRuleSpecification(TransitionMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -132,9 +130,9 @@ class Pn2ScJobs {
 			state1.next += state2
 		]
 		
-		newSimpleMatcherRuleSpecification(NextStateMatcher::factory,
+		newSimpleMatcherRuleSpecification(NextStateMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -142,9 +140,9 @@ class Pn2ScJobs {
 	 */
 	def getInitialisationRules() {
 		newHashSet(
-			createMapPlaceRuleSpecification() as RuleSpecification<? extends IPatternMatch>,
-			createMapTransitionRuleSpecification() as RuleSpecification<? extends IPatternMatch>,
-			createNextStateRuleSpecification() as RuleSpecification<? extends IPatternMatch>
+			createMapPlaceRuleSpecification() as RuleSpecification<?>,
+			createMapTransitionRuleSpecification() as RuleSpecification<?>,
+			createNextStateRuleSpecification() as RuleSpecification<?>
 		)
 	}
 	
@@ -164,9 +162,9 @@ class Pn2ScJobs {
 			processAndRule(p, placesSet)
 		]
 				
-		newSimpleMatcherRuleSpecification(AndPrecondMatcher::factory,
+		newSimpleMatcherRuleSpecification(AndPrecondMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -231,9 +229,9 @@ class Pn2ScJobs {
 			deleteTransition(t)
 		]
 		
-		newSimpleMatcherRuleSpecification(OrPrecondMatcher::factory,
+		newSimpleMatcherRuleSpecification(OrPrecondMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -241,8 +239,8 @@ class Pn2ScJobs {
 	 */
 	def getAndOrRules() {
 		newHashSet(
-			createAndRuleSpecification() as RuleSpecification<? extends IPatternMatch>,
-			createOrRuleSpecification() as RuleSpecification<? extends IPatternMatch>
+			createAndRuleSpecification() as RuleSpecification<?>,
+			createOrRuleSpecification() as RuleSpecification<?>
 		)
 	}
 	
@@ -255,9 +253,9 @@ class Pn2ScJobs {
 			stateChartResource.contents.remove(orState)
 		]
 		
-		newSimpleMatcherRuleSpecification(EmptyOrMatcher::factory,
+		newSimpleMatcherRuleSpecification(EmptyOrMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -273,9 +271,9 @@ class Pn2ScJobs {
 			orState.moveTo(topAnd.contains)
 		]
 		
-		newSimpleMatcherRuleSpecification(TopOrMatcher::factory,
+		newSimpleMatcherRuleSpecification(TopOrMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(ActivationState::APPEARED, processor)))
+			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -283,8 +281,8 @@ class Pn2ScJobs {
 	 */
 	def getFinalisationRules() {
 		newHashSet(
-			createOrRemoveRuleSpecification() as RuleSpecification<? extends IPatternMatch>,
-			createTopand() as RuleSpecification<? extends IPatternMatch>
+			createOrRemoveRuleSpecification() as RuleSpecification<?>,
+			createTopand() as RuleSpecification<?>
 		)
 	}
 	
@@ -326,11 +324,11 @@ class Pn2ScJobs {
 			doAllSnapshot("UpdatePlace")
 		]
 		
-		newSimpleMatcherRuleSpecification(PlaceMatcher::factory,
+		newSimpleMatcherRuleSpecification(PlaceMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT,
-			newHashSet( EnableableJob::newEnableableJob(ActivationState::APPEARED, processorAdd), 
-						EnableableJob::newEnableableJob(ActivationState::DISAPPEARED, processorDelete),
-						EnableableJob::newEnableableJob(ActivationState::UPDATED, processorUpdate)
+			newHashSet( newEnableJob( newRecordingJob( newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd))), 
+						newEnableJob( newRecordingJob( newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorDelete))),
+						newEnableJob( newRecordingJob( newStatelessJob(IncQueryActivationStateEnum::UPDATED, processorUpdate)))
 			))
 	}
 	
@@ -365,11 +363,11 @@ class Pn2ScJobs {
 			doAllSnapshot("UpdateTransition")
 		]
 		
-		newSimpleMatcherRuleSpecification(TransitionMatcher::factory,
+		newSimpleMatcherRuleSpecification(TransitionMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT,
-			newHashSet( EnableableJob::newEnableableJob(ActivationState::APPEARED, processorAdd), 
-						EnableableJob::newEnableableJob(ActivationState::DISAPPEARED, processorDelete),
-						EnableableJob::newEnableableJob(ActivationState::UPDATED, processorUpdate)
+			newHashSet( newEnableJob( newRecordingJob( newStatelessJob( IncQueryActivationStateEnum::APPEARED, processorAdd))), 
+						newEnableJob( newRecordingJob( newStatelessJob( IncQueryActivationStateEnum::DISAPPEARED, processorDelete))),
+						newEnableJob( newRecordingJob( newStatelessJob( IncQueryActivationStateEnum::UPDATED, processorUpdate)))
 			))
 		
 	}
@@ -398,10 +396,10 @@ class Pn2ScJobs {
 			doAllSnapshot("CP_PT_removed")
 		]
 		
-		newSimpleMatcherRuleSpecification(PostTMatcher::factory,
+		newSimpleMatcherRuleSpecification(PostTMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE,
-			newHashSet(newStatelessJob(ActivationState::APPEARED, processorAdd),
-				       newStatelessJob(ActivationState::DISAPPEARED, processorRemove)
+			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd),
+				       newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorRemove)
 			))
 	}
 	
@@ -429,19 +427,19 @@ class Pn2ScJobs {
 			doAllSnapshot("CP_TP_removed")
 		]
 		
-		newSimpleMatcherRuleSpecification(PreTMatcher::factory,
+		newSimpleMatcherRuleSpecification(PreTMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE,
-			newHashSet(newStatelessJob(ActivationState::APPEARED, processorAdd),
-				       newStatelessJob(ActivationState::DISAPPEARED, processorRemove)
+			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd),
+				       newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorRemove)
 			))
 	}
 	
 	def getCPRules() {
 		newHashSet(
-			createCPPlaceRule() as RuleSpecification<? extends IPatternMatch>,
-			createCPTransitionRule() as RuleSpecification<? extends IPatternMatch>,
-			createCPPlaceToTransitionRule() as RuleSpecification<? extends IPatternMatch>,
-			createCPTransitionToPlaceRule() as RuleSpecification<? extends IPatternMatch>
+			createCPPlaceRule() as RuleSpecification<?>,
+			createCPTransitionRule() as RuleSpecification<?>,
+			createCPPlaceToTransitionRule() as RuleSpecification<?>,
+			createCPTransitionToPlaceRule() as RuleSpecification<?>
 		)
 	}
 	

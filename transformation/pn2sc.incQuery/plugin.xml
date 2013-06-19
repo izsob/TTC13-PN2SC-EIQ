@@ -3,57 +3,57 @@
 
    <extension
          id="pn2sc.queries.place"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.place.PlaceMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.PlaceQuerySpecification$Provider"
             id="pn2sc.queries.place">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.transition"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.transition.TransitionMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.TransitionQuerySpecification$Provider"
             id="pn2sc.queries.transition">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.nextState"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.nextstate.NextStateMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.NextStateQuerySpecification$Provider"
             id="pn2sc.queries.nextState">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.equiv"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.equiv.EquivMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.EquivQuerySpecification$Provider"
             id="pn2sc.queries.equiv">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.equivContains"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.equivcontains.EquivContainsMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.EquivContainsQuerySpecification$Provider"
             id="pn2sc.queries.equivContains">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.traceElement"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.traceelement.TraceElementMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.TraceElementQuerySpecification$Provider"
             id="pn2sc.queries.traceElement">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.andPrecond"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.andprecond.AndPrecondMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.AndPrecondQuerySpecification$Provider"
             id="pn2sc.queries.andPrecond">
       </matcher>
    </extension>
@@ -61,7 +61,7 @@
          id="pn2sc.queries.andPrecond"
          point="org.eclipse.incquery.runtime.xexpressionevaluator">
       <evaluator
-            evaluatorClass="pn2sc.queries.andprecond.AndPrecondEvaluator1_1"
+            evaluatorClass="pn2sc.queries.util.AndPrecondEvaluator1_1"
             id="pn2sc.queries.andPrecond_1_1">
       </evaluator>
    </extension>
@@ -69,167 +69,167 @@
          id="pn2sc.queries.andPrecond"
          point="org.eclipse.incquery.runtime.xexpressionevaluator">
       <evaluator
-            evaluatorClass="pn2sc.queries.andprecond.AndPrecondEvaluator2_1"
+            evaluatorClass="pn2sc.queries.util.AndPrecondEvaluator2_1"
             id="pn2sc.queries.andPrecond_2_1">
       </evaluator>
    </extension>
    <extension
          id="pn2sc.queries.nonCommonTPre"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.noncommontpre.NonCommonTPreMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.NonCommonTPreQuerySpecification$Provider"
             id="pn2sc.queries.nonCommonTPre">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.tranWithTwoPostPlaces"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.tranwithtwopostplaces.TranWithTwoPostPlacesMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.TranWithTwoPostPlacesQuerySpecification$Provider"
             id="pn2sc.queries.tranWithTwoPostPlaces">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.nonCommonTPost"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.noncommontpost.NonCommonTPostMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.NonCommonTPostQuerySpecification$Provider"
             id="pn2sc.queries.nonCommonTPost">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.transitionWithTwoPrePlaces"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.transitionwithtwopreplaces.TransitionWithTwoPrePlacesMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.TransitionWithTwoPrePlacesQuerySpecification$Provider"
             id="pn2sc.queries.transitionWithTwoPrePlaces">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.postT"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.postt.PostTMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.PostTQuerySpecification$Provider"
             id="pn2sc.queries.postT">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.preT"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.pret.PreTMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.PreTQuerySpecification$Provider"
             id="pn2sc.queries.preT">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.orPrecond"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.orprecond.OrPrecondMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.OrPrecondQuerySpecification$Provider"
             id="pn2sc.queries.orPrecond">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.uniquePrePlace"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.uniquepreplace.UniquePrePlaceMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.UniquePrePlaceQuerySpecification$Provider"
             id="pn2sc.queries.uniquePrePlace">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.moreThanOnePrePlace"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.morethanonepreplace.MoreThanOnePrePlaceMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.MoreThanOnePrePlaceQuerySpecification$Provider"
             id="pn2sc.queries.moreThanOnePrePlace">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.uniquePostPlace"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.uniquepostplace.UniquePostPlaceMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.UniquePostPlaceQuerySpecification$Provider"
             id="pn2sc.queries.uniquePostPlace">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.moreThanOnePostPlace"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.morethanonepostplace.MoreThanOnePostPlaceMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.MoreThanOnePostPlaceQuerySpecification$Provider"
             id="pn2sc.queries.moreThanOnePostPlace">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.commonPreT"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.commonpret.CommonPreTMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.CommonPreTQuerySpecification$Provider"
             id="pn2sc.queries.commonPreT">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.commonPostT"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.commonpostt.CommonPostTMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.CommonPostTQuerySpecification$Provider"
             id="pn2sc.queries.commonPostT">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.prePostPlaces"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.prepostplaces.PrePostPlacesMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.PrePostPlacesQuerySpecification$Provider"
             id="pn2sc.queries.prePostPlaces">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.topOr"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.topor.TopOrMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.TopOrQuerySpecification$Provider"
             id="pn2sc.queries.topOr">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.singleRootOr"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.singlerootor.SingleRootOrMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.SingleRootOrQuerySpecification$Provider"
             id="pn2sc.queries.singleRootOr">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.rootOr"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.rootor.RootOrMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.RootOrQuerySpecification$Provider"
             id="pn2sc.queries.rootOr">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.emptyOr"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.emptyor.EmptyOrMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.EmptyOrQuerySpecification$Provider"
             id="pn2sc.queries.emptyOr">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.hasRcontains"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.hasrcontains.HasRcontainsMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.HasRcontainsQuerySpecification$Provider"
             id="pn2sc.queries.hasRcontains">
       </matcher>
    </extension>
    <extension
          id="pn2sc.queries.hasContains"
-         point="org.eclipse.incquery.runtime.matcherfactory">
+         point="org.eclipse.incquery.runtime.queryspecification">
       <matcher
-            factoryProvider="pn2sc.queries.hascontains.HasContainsMatcherFactory$Provider"
+            querySpecificationProvider="pn2sc.queries.util.HasContainsQuerySpecification$Provider"
             id="pn2sc.queries.hasContains">
       </matcher>
    </extension>
