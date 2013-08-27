@@ -27,7 +27,7 @@
       <plugin id="com.google.inject"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="javax.inject"/>
-      <plugin id="org.antlr.runtime"/>
+      <plugin id="org.antlr.runtime" version="3.2.0.v201101311130"/>
       <plugin id="org.apache.log4j"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
@@ -36,7 +36,6 @@
       <plugin id="org.eclipse.core.databinding.property"/>
       <plugin id="org.eclipse.core.expressions"/>
       <plugin id="org.eclipse.core.filesystem"/>
-      <plugin id="org.eclipse.core.filesystem.linux.x86" fragment="true"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.resources"/>
       <plugin id="org.eclipse.core.runtime"/>
@@ -82,5 +81,8 @@
       <plugin id="pn2sc.incQuery"/>
    </plugins>
 
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+   </configurations>
 
 </product>
