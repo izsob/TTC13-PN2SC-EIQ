@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:eMFPatternLanguage="http://www.eclipse.org/incquery/patternlanguage/emf/EMFPatternLanguage" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:patternLanguage="http://www.eclipse.org/incquery/patternlanguage/PatternLanguage" xmlns:types="http://www.eclipse.org/xtext/common/JavaVMTypes" xmlns:xbase="http://www.eclipse.org/xtext/xbase/Xbase">
+  <eMFPatternLanguage:PatternModel>
+    <patterns name="pn2sc.queries.place" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="p"/>
+      <bodies>
+        <constraints xsi:type="eMFPatternLanguage:EClassifierConstraint">
+          <type xsi:type="eMFPatternLanguage:ClassType">
+            <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Place"/>
+          </type>
+          <var var="p"/>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.transition" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="t"/>
+      <bodies>
+        <constraints xsi:type="eMFPatternLanguage:EClassifierConstraint">
+          <type xsi:type="eMFPatternLanguage:ClassType">
+            <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+          </type>
+          <var var="t"/>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.nextState" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="State1"/>
+      <parameters name="State2"/>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Place"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://uam.es/PetriNets#//Place/postt"/>
+              </type>
+            </tail>
+            <src var="P"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </dst>
+          </head>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.4">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="State1"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.3">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="State2"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://uam.es/PetriNets#//Transition/postp"/>
+              </type>
+            </tail>
+            <src var="T"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="P"/>
+            </dst>
+          </head>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.3">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="State1"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.4">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="State2"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.equiv" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="namesElement">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//NamedElement"/>
+        </type>
+      </parameters>
+      <parameters name="state">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/StateCharts#//State"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://pn2sctrace/1.0#//MapTrace"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://pn2sctrace/1.0#//MapTrace/source"/>
+              </type>
+            </tail>
+            <src var="Trace"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="namesElement"/>
+            </dst>
+          </head>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://pn2sctrace/1.0#//MapTrace"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://pn2sctrace/1.0#//MapTrace/target"/>
+              </type>
+            </tail>
+            <src var="Trace"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="state"/>
+            </dst>
+          </head>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.equivContains" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="namedElement">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//NamedElement"/>
+        </type>
+      </parameters>
+      <parameters name="State">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/StateCharts#//State"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.3">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="namedElement"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="eqState"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://uam.es/StateCharts#//OR"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://uam.es/StateCharts#//Compound/contains"/>
+              </type>
+            </tail>
+            <src var="eqState"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="State"/>
+            </dst>
+          </head>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.traceElement" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="SmElement">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//NamedElement"/>
+        </type>
+      </parameters>
+      <parameters name="Trace">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://pn2sctrace/1.0#//MapTrace"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://pn2sctrace/1.0#//MapTrace"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://pn2sctrace/1.0#//MapTrace/source"/>
+              </type>
+            </tail>
+            <src var="Trace"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="SmElement"/>
+            </dst>
+          </head>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.andPrecond" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="P">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Place"/>
+        </type>
+      </parameters>
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://uam.es/PetriNets#//Transition/prep"/>
+              </type>
+            </tail>
+            <src var="T"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="P"/>
+            </dst>
+          </head>
+        </constraints>
+        <constraints xsi:type="patternLanguage:CompareConstraint">
+          <leftOperand xsi:type="patternLanguage:VariableValue">
+            <value var="countPrePlaces"/>
+          </leftOperand>
+          <rightOperand xsi:type="patternLanguage:AggregatedValue">
+            <aggregator xsi:type="patternLanguage:CountAggregator"/>
+            <call patternRef="/0/@patterns.11">
+              <parameters xsi:type="patternLanguage:VariableValue">
+                <value var="_PX"/>
+              </parameters>
+              <parameters xsi:type="patternLanguage:VariableValue">
+                <value var="T"/>
+              </parameters>
+            </call>
+          </rightOperand>
+        </constraints>
+        <constraints xsi:type="patternLanguage:CheckConstraint">
+          <expression xsi:type="xbase:XBinaryOperation">
+            <feature xsi:type="types:JvmOperation" href="java:/Objects/org.eclipse.xtext.xbase.lib.IntegerExtensions#org.eclipse.xtext.xbase.lib.IntegerExtensions.operator_greaterEqualsThan(int,int)"/>
+            <leftOperand xsi:type="xbase:XFeatureCall" feature="/1"/>
+            <rightOperand xsi:type="xbase:XNumberLiteral" value="2"/>
+          </expression>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint" negative="true">
+          <call patternRef="/0/@patterns.9">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://uam.es/PetriNets#//Transition/postp"/>
+              </type>
+            </tail>
+            <src var="T"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="P"/>
+            </dst>
+          </head>
+        </constraints>
+        <constraints xsi:type="patternLanguage:CompareConstraint">
+          <leftOperand xsi:type="patternLanguage:VariableValue">
+            <value var="countPostPlaces"/>
+          </leftOperand>
+          <rightOperand xsi:type="patternLanguage:AggregatedValue">
+            <aggregator xsi:type="patternLanguage:CountAggregator"/>
+            <call patternRef="/0/@patterns.12">
+              <parameters xsi:type="patternLanguage:VariableValue">
+                <value var="_PX"/>
+              </parameters>
+              <parameters xsi:type="patternLanguage:VariableValue">
+                <value var="T"/>
+              </parameters>
+            </call>
+          </rightOperand>
+        </constraints>
+        <constraints xsi:type="patternLanguage:CheckConstraint">
+          <expression xsi:type="xbase:XBinaryOperation">
+            <feature xsi:type="types:JvmOperation" href="java:/Objects/org.eclipse.xtext.xbase.lib.IntegerExtensions#org.eclipse.xtext.xbase.lib.IntegerExtensions.operator_greaterEqualsThan(int,int)"/>
+            <leftOperand xsi:type="xbase:XFeatureCall" feature="/2"/>
+            <rightOperand xsi:type="xbase:XNumberLiteral" value="2"/>
+          </expression>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint" negative="true">
+          <call patternRef="/0/@patterns.7">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.nonCommonTPre" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.8">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P2"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.12">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T1"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint" negative="true">
+          <call patternRef="/0/@patterns.12">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P2"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T1"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.8">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P2"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.11">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T1"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint" negative="true">
+          <call patternRef="/0/@patterns.11">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P2"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T1"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.tranWithTwoPostPlaces" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <parameters name="P1">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Place"/>
+        </type>
+      </parameters>
+      <parameters name="P2">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Place"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.12">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.12">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P2"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:CompareConstraint" feature="!=">
+          <leftOperand xsi:type="patternLanguage:VariableValue">
+            <value var="P1"/>
+          </leftOperand>
+          <rightOperand xsi:type="patternLanguage:VariableValue">
+            <value var="P2"/>
+          </rightOperand>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.nonCommonTPost" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.10">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P2"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.11">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T1"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint" negative="true">
+          <call patternRef="/0/@patterns.11">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P2"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T1"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.10">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P2"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.12">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T1"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint" negative="true">
+          <call patternRef="/0/@patterns.12">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P2"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T1"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.transitionWithTwoPrePlaces" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <parameters name="P1">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Place"/>
+        </type>
+      </parameters>
+      <parameters name="P2">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Place"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.11">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.11">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="P2"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:CompareConstraint" feature="!=">
+          <leftOperand xsi:type="patternLanguage:VariableValue">
+            <value var="P1"/>
+          </leftOperand>
+          <rightOperand xsi:type="patternLanguage:VariableValue">
+            <value var="P2"/>
+          </rightOperand>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.postT" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="P"/>
+      <parameters name="T"/>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Place"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://uam.es/PetriNets#//Place/postt"/>
+              </type>
+            </tail>
+            <src var="P"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </dst>
+          </head>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.preT" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="P"/>
+      <parameters name="T"/>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Place"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://uam.es/PetriNets#//Place/pret"/>
+              </type>
+            </tail>
+            <src var="P"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </dst>
+          </head>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.orPrecond" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.14">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.16">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint" negative="true">
+          <call patternRef="/0/@patterns.19">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint" negative="true">
+          <call patternRef="/0/@patterns.18">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.uniquePrePlace" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:CompareConstraint">
+          <leftOperand xsi:type="patternLanguage:IntValue" value="1"/>
+          <rightOperand xsi:type="patternLanguage:AggregatedValue">
+            <aggregator xsi:type="patternLanguage:CountAggregator"/>
+            <call patternRef="/0/@patterns.11">
+              <parameters xsi:type="patternLanguage:VariableValue">
+                <value var="_PX1"/>
+              </parameters>
+              <parameters xsi:type="patternLanguage:VariableValue">
+                <value var="T"/>
+              </parameters>
+            </call>
+          </rightOperand>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.moreThanOnePrePlace" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.11">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PX1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.11">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PX2"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:CompareConstraint" feature="!=">
+          <leftOperand xsi:type="patternLanguage:VariableValue">
+            <value var="PX1"/>
+          </leftOperand>
+          <rightOperand xsi:type="patternLanguage:VariableValue">
+            <value var="PX2"/>
+          </rightOperand>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.uniquePostPlace" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:CompareConstraint">
+          <leftOperand xsi:type="patternLanguage:IntValue" value="1"/>
+          <rightOperand xsi:type="patternLanguage:AggregatedValue">
+            <aggregator xsi:type="patternLanguage:CountAggregator"/>
+            <call patternRef="/0/@patterns.12">
+              <parameters xsi:type="patternLanguage:VariableValue">
+                <value var="_PX1"/>
+              </parameters>
+              <parameters xsi:type="patternLanguage:VariableValue">
+                <value var="T"/>
+              </parameters>
+            </call>
+          </rightOperand>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.moreThanOnePostPlace" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.12">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PX1"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.12">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PX2"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:CompareConstraint" feature="!=">
+          <leftOperand xsi:type="patternLanguage:VariableValue">
+            <value var="PX1"/>
+          </leftOperand>
+          <rightOperand xsi:type="patternLanguage:VariableValue">
+            <value var="PX2"/>
+          </rightOperand>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.commonPreT" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.20">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PreP"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PostP"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.8">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="_"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PreP"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PostP"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.commonPostT" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.20">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PreP"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PostP"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="T"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.10">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="_"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PreP"/>
+            </parameters>
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="PostP"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.prePostPlaces" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="PrePlace">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Place"/>
+        </type>
+      </parameters>
+      <parameters name="PostPlace">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Place"/>
+        </type>
+      </parameters>
+      <parameters name="T">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://uam.es/PetriNets#//Transition/prep"/>
+              </type>
+            </tail>
+            <src var="T"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="PrePlace"/>
+            </dst>
+          </head>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://uam.es/PetriNets#//Transition"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://uam.es/PetriNets#//Transition/postp"/>
+              </type>
+            </tail>
+            <src var="T"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="PostPlace"/>
+            </dst>
+          </head>
+        </constraints>
+        <constraints xsi:type="patternLanguage:CompareConstraint" feature="!=">
+          <leftOperand xsi:type="patternLanguage:VariableValue">
+            <value var="PrePlace"/>
+          </leftOperand>
+          <rightOperand xsi:type="patternLanguage:VariableValue">
+            <value var="PostPlace"/>
+          </rightOperand>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.topOr" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="orState">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/StateCharts#//OR"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.22"/>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint">
+          <call patternRef="/0/@patterns.23">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="orState"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.singleRootOr" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <bodies>
+        <constraints xsi:type="patternLanguage:CompareConstraint">
+          <leftOperand xsi:type="patternLanguage:IntValue" value="1"/>
+          <rightOperand xsi:type="patternLanguage:AggregatedValue">
+            <aggregator xsi:type="patternLanguage:CountAggregator"/>
+            <call patternRef="/0/@patterns.23">
+              <parameters xsi:type="patternLanguage:VariableValue">
+                <value var="_"/>
+              </parameters>
+            </call>
+          </rightOperand>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.rootOr" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="rootOr">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/StateCharts#//OR"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="eMFPatternLanguage:EClassifierConstraint">
+          <type xsi:type="eMFPatternLanguage:ClassType">
+            <classname xsi:type="ecore:EClass" href="http://uam.es/StateCharts#//OR"/>
+          </type>
+          <var var="rootOr"/>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint" negative="true">
+          <call patternRef="/0/@patterns.25">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="rootOr"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.emptyOr" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="orState">
+        <type xsi:type="eMFPatternLanguage:ClassType">
+          <classname xsi:type="ecore:EClass" href="http://uam.es/StateCharts#//OR"/>
+        </type>
+      </parameters>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint" negative="true">
+          <call patternRef="/0/@patterns.25">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="orState"/>
+            </parameters>
+          </call>
+        </constraints>
+        <constraints xsi:type="patternLanguage:PatternCompositionConstraint" negative="true">
+          <call patternRef="/0/@patterns.26">
+            <parameters xsi:type="patternLanguage:VariableValue">
+              <value var="orState"/>
+            </parameters>
+          </call>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.hasRcontains" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="from"/>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://uam.es/StateCharts#//Compound"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://uam.es/StateCharts#//State/rcontains"/>
+              </type>
+            </tail>
+            <src var="from"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="_to"/>
+            </dst>
+          </head>
+        </constraints>
+      </bodies>
+    </patterns>
+    <patterns name="pn2sc.queries.hasContains" fileName="platform:/resource/pn2sc.incQuery/src/pn2sc/queries/pn2sc.eiq">
+      <parameters name="from"/>
+      <bodies>
+        <constraints xsi:type="patternLanguage:PathExpressionConstraint">
+          <head>
+            <type xsi:type="eMFPatternLanguage:ClassType">
+              <classname xsi:type="ecore:EClass" href="http://uam.es/StateCharts#//Compound"/>
+            </type>
+            <tail>
+              <type xsi:type="eMFPatternLanguage:ReferenceType">
+                <refname xsi:type="ecore:EReference" href="http://uam.es/StateCharts#//Compound/contains"/>
+              </type>
+            </tail>
+            <src var="from"/>
+            <dst xsi:type="patternLanguage:VariableValue">
+              <value var="_to"/>
+            </dst>
+          </head>
+        </constraints>
+      </bodies>
+    </patterns>
+    <importPackages>
+      <packageImport>
+        <ePackage href="http://uam.es/PetriNets#/"/>
+      </packageImport>
+      <packageImport>
+        <ePackage href="http://pn2sctrace/1.0#/"/>
+      </packageImport>
+      <packageImport>
+        <ePackage href="http://uam.es/StateCharts#/"/>
+      </packageImport>
+    </importPackages>
+  </eMFPatternLanguage:PatternModel>
+  <types:JvmFormalParameter name="countPrePlaces">
+    <parameterType xsi:type="types:JvmParameterizedTypeReference"/>
+  </types:JvmFormalParameter>
+  <types:JvmFormalParameter name="countPostPlaces">
+    <parameterType xsi:type="types:JvmParameterizedTypeReference"/>
+  </types:JvmFormalParameter>
+</xmi:XMI>
