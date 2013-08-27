@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="pn2sc.Product" uid="pn2sc.Product" id="pn2sc.product" application="pn2sc.pn2sc" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcher name="pn2sc">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <plugins>
+      <plugin id="PN2SCTrace"/>
+      <plugin id="PetriNets"/>
+      <plugin id="StateCharts"/>
+      <plugin id="com.google.guava"/>
+      <plugin id="com.google.inject"/>
+      <plugin id="com.ibm.icu"/>
+      <plugin id="javax.inject"/>
+      <plugin id="org.antlr.runtime"/>
+      <plugin id="org.apache.log4j"/>
+      <plugin id="org.eclipse.core.commands"/>
+      <plugin id="org.eclipse.core.contenttype"/>
+      <plugin id="org.eclipse.core.databinding"/>
+      <plugin id="org.eclipse.core.databinding.observable"/>
+      <plugin id="org.eclipse.core.databinding.property"/>
+      <plugin id="org.eclipse.core.expressions"/>
+      <plugin id="org.eclipse.core.filesystem"/>
+      <plugin id="org.eclipse.core.filesystem.linux.x86" fragment="true"/>
+      <plugin id="org.eclipse.core.jobs"/>
+      <plugin id="org.eclipse.core.resources"/>
+      <plugin id="org.eclipse.core.runtime"/>
+      <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
+      <plugin id="org.eclipse.core.variables"/>
+      <plugin id="org.eclipse.debug.core"/>
+      <plugin id="org.eclipse.emf.common"/>
+      <plugin id="org.eclipse.emf.databinding"/>
+      <plugin id="org.eclipse.emf.ecore"/>
+      <plugin id="org.eclipse.emf.ecore.change"/>
+      <plugin id="org.eclipse.emf.ecore.xmi"/>
+      <plugin id="org.eclipse.emf.edit"/>
+      <plugin id="org.eclipse.emf.transaction"/>
+      <plugin id="org.eclipse.emf.validation"/>
+      <plugin id="org.eclipse.emf.workspace"/>
+      <plugin id="org.eclipse.equinox.app"/>
+      <plugin id="org.eclipse.equinox.common"/>
+      <plugin id="org.eclipse.equinox.preferences"/>
+      <plugin id="org.eclipse.equinox.registry"/>
+      <plugin id="org.eclipse.incquery.patternlanguage"/>
+      <plugin id="org.eclipse.incquery.patternlanguage.emf"/>
+      <plugin id="org.eclipse.incquery.runtime"/>
+      <plugin id="org.eclipse.incquery.runtime.base"/>
+      <plugin id="org.eclipse.incquery.runtime.base.itc"/>
+      <plugin id="org.eclipse.incquery.runtime.evm"/>
+      <plugin id="org.eclipse.incquery.runtime.rete"/>
+      <plugin id="org.eclipse.jdt.compiler.apt" fragment="true"/>
+      <plugin id="org.eclipse.jdt.compiler.tool" fragment="true"/>
+      <plugin id="org.eclipse.jdt.core"/>
+      <plugin id="org.eclipse.jdt.debug"/>
+      <plugin id="org.eclipse.jdt.launching"/>
+      <plugin id="org.eclipse.osgi"/>
+      <plugin id="org.eclipse.text"/>
+      <plugin id="org.eclipse.xtend.lib"/>
+      <plugin id="org.eclipse.xtext"/>
+      <plugin id="org.eclipse.xtext.common.types"/>
+      <plugin id="org.eclipse.xtext.logging" fragment="true"/>
+      <plugin id="org.eclipse.xtext.util"/>
+      <plugin id="org.eclipse.xtext.xbase"/>
+      <plugin id="org.eclipse.xtext.xbase.lib"/>
+      <plugin id="pn2sc"/>
+      <plugin id="pn2sc.common"/>
+      <plugin id="pn2sc.incQuery"/>
+   </plugins>
+
+
+</product>

@@ -12,7 +12,7 @@
     <module>../../transformation/pn2sc</module>
     <module>../../transformation/pn2sc.common</module>
     <module>../../transformation/pn2sc.incQuery</module>
-    <!-- module>../../transformation/pn2sc.product</module -->
+    <module>../../releng/pn2sc.product</module>
   </modules>
   	<properties>
 		<tycho.version>0.18.1</tycho.version>
