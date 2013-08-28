@@ -49,7 +49,7 @@
         <repository>
 		  <id>kepler</id>
 		  <layout>p2</layout>
-		  <url>http://download.eclipse.org/releases/kepler/</url>
+		  <url>http://download.eclipse.org/releases/kepler</url>
         </repository>
         <repository>
 		  <id>kepler.update</id>
