@@ -16,7 +16,6 @@ import PetriNet.Transition
 import java.io.File
 import org.eclipse.emf.common.util.EList
 
-import static org.eclipse.incquery.runtime.evm.specific.Jobs.*
 import PetriNet.PetriNetFactory
 import org.eclipse.incquery.runtime.evm.api.RuleSpecification
 import org.eclipse.incquery.runtime.api.IncQueryEngine
@@ -46,6 +45,7 @@ import pn2sc.queries.PreTMatcher
 import org.eclipse.incquery.runtime.evm.specific.lifecycle.DefaultActivationLifeCycle
 import org.eclipse.incquery.runtime.evm.specific.event.IncQueryActivationStateEnum
 import org.eclipse.incquery.runtime.evm.specific.Rules
+import org.eclipse.incquery.runtime.evm.specific.Jobs
 
 class Pn2ScJobs {
 	long debug
@@ -86,7 +86,7 @@ class Pn2ScJobs {
 	def createMapPlaceRuleSpecification() {
 		Rules::newMatcherRuleSpecification(PlaceMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(<PlaceMatch>newStatelessJob(IncQueryActivationStateEnum::APPEARED) [
+			newHashSet(Jobs::<PlaceMatch>newStatelessJob(IncQueryActivationStateEnum::APPEARED) [
 				// create base b with b.name=p.name; and the state or, where or.contains={b}
 				var basic = stf.createBasic()
 				basic.name = p.name
@@ -119,7 +119,7 @@ class Pn2ScJobs {
 		
 		Rules::newMatcherRuleSpecification(TransitionMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
+			newHashSet(Jobs::newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -132,7 +132,7 @@ class Pn2ScJobs {
 		
 		Rules::newMatcherRuleSpecification(NextStateMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
+			newHashSet(Jobs::newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -164,7 +164,7 @@ class Pn2ScJobs {
 				
 		Rules::newMatcherRuleSpecification(AndPrecondMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
+			newHashSet(Jobs::newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -231,7 +231,7 @@ class Pn2ScJobs {
 		
 		Rules::newMatcherRuleSpecification(OrPrecondMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
+			newHashSet(Jobs::newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -255,7 +255,7 @@ class Pn2ScJobs {
 		
 		Rules::newMatcherRuleSpecification(EmptyOrMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
+			newHashSet(Jobs::newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -273,7 +273,7 @@ class Pn2ScJobs {
 		
 		Rules::newMatcherRuleSpecification(TopOrMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
-			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
+			newHashSet(Jobs::newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
 	
 	/*
@@ -326,9 +326,9 @@ class Pn2ScJobs {
 		
 		Rules::newMatcherRuleSpecification(PlaceMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT,
-			newHashSet( newEnableJob( newRecordingJob( newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd))), 
-						newEnableJob( newRecordingJob( newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorDelete))),
-						newEnableJob( newRecordingJob( newStatelessJob(IncQueryActivationStateEnum::UPDATED, processorUpdate)))
+			newHashSet( Jobs::newEnableJob( Jobs::newRecordingJob( Jobs::newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd))), 
+						Jobs::newEnableJob( Jobs::newRecordingJob( Jobs::newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorDelete))),
+						Jobs::newEnableJob( Jobs::newRecordingJob( Jobs::newStatelessJob(IncQueryActivationStateEnum::UPDATED, processorUpdate)))
 			))
 	}
 	
@@ -365,9 +365,9 @@ class Pn2ScJobs {
 		
 		Rules::newMatcherRuleSpecification(TransitionMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT,
-			newHashSet( newEnableJob( newRecordingJob( newStatelessJob( IncQueryActivationStateEnum::APPEARED, processorAdd))), 
-						newEnableJob( newRecordingJob( newStatelessJob( IncQueryActivationStateEnum::DISAPPEARED, processorDelete))),
-						newEnableJob( newRecordingJob( newStatelessJob( IncQueryActivationStateEnum::UPDATED, processorUpdate)))
+			newHashSet( Jobs::newEnableJob( Jobs::newRecordingJob( Jobs::newStatelessJob( IncQueryActivationStateEnum::APPEARED, processorAdd))), 
+						Jobs::newEnableJob( Jobs::newRecordingJob( Jobs::newStatelessJob( IncQueryActivationStateEnum::DISAPPEARED, processorDelete))),
+						Jobs::newEnableJob( Jobs::newRecordingJob( Jobs::newStatelessJob( IncQueryActivationStateEnum::UPDATED, processorUpdate)))
 			))
 		
 	}
@@ -398,8 +398,8 @@ class Pn2ScJobs {
 		
 		Rules::newMatcherRuleSpecification(PostTMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE,
-			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd),
-				       newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorRemove)
+			newHashSet(Jobs::newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd),
+				       Jobs::newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorRemove)
 			))
 	}
 	
@@ -429,8 +429,8 @@ class Pn2ScJobs {
 		
 		Rules::newMatcherRuleSpecification(PreTMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE,
-			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd),
-				       newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorRemove)
+			newHashSet(Jobs::newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd),
+				       Jobs::newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorRemove)
 			))
 	}
 	
