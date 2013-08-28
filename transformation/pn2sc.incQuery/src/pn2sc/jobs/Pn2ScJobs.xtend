@@ -16,7 +16,6 @@ import PetriNet.Transition
 import java.io.File
 import org.eclipse.emf.common.util.EList
 
-import static org.eclipse.incquery.runtime.evm.specific.Rules.*
 import static org.eclipse.incquery.runtime.evm.specific.Jobs.*
 import PetriNet.PetriNetFactory
 import org.eclipse.incquery.runtime.evm.api.RuleSpecification
@@ -46,6 +45,7 @@ import pn2sc.queries.PreTMatch
 import pn2sc.queries.PreTMatcher
 import org.eclipse.incquery.runtime.evm.specific.lifecycle.DefaultActivationLifeCycle
 import org.eclipse.incquery.runtime.evm.specific.event.IncQueryActivationStateEnum
+import org.eclipse.incquery.runtime.evm.specific.Rules
 
 class Pn2ScJobs {
 	long debug
@@ -84,7 +84,7 @@ class Pn2ScJobs {
 	 * Map a PetriNet place to a base state in the StateChart with an "or" container.
 	 */
 	def createMapPlaceRuleSpecification() {
-		newMatcherRuleSpecification(PlaceMatcher::querySpecification,
+		Rules::newMatcherRuleSpecification(PlaceMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
 			newHashSet(<PlaceMatch>newStatelessJob(IncQueryActivationStateEnum::APPEARED) [
 				// create base b with b.name=p.name; and the state or, where or.contains={b}
@@ -117,7 +117,7 @@ class Pn2ScJobs {
 			createTrace(t, hyperEdge)
 		]
 		
-		newMatcherRuleSpecification(TransitionMatcher::querySpecification,
+		Rules::newMatcherRuleSpecification(TransitionMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
 			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
@@ -130,7 +130,7 @@ class Pn2ScJobs {
 			state1.next += state2
 		]
 		
-		newMatcherRuleSpecification(NextStateMatcher::querySpecification,
+		Rules::newMatcherRuleSpecification(NextStateMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
 			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
@@ -162,7 +162,7 @@ class Pn2ScJobs {
 			processAndRule(p, placesSet)
 		]
 				
-		newMatcherRuleSpecification(AndPrecondMatcher::querySpecification,
+		Rules::newMatcherRuleSpecification(AndPrecondMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
 			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
@@ -229,7 +229,7 @@ class Pn2ScJobs {
 			deleteTransition(t)
 		]
 		
-		newMatcherRuleSpecification(OrPrecondMatcher::querySpecification,
+		Rules::newMatcherRuleSpecification(OrPrecondMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
 			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
@@ -253,7 +253,7 @@ class Pn2ScJobs {
 			stateChartResource.contents.remove(orState)
 		]
 		
-		newMatcherRuleSpecification(EmptyOrMatcher::querySpecification,
+		Rules::newMatcherRuleSpecification(EmptyOrMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
 			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
@@ -271,7 +271,7 @@ class Pn2ScJobs {
 			orState.moveTo(topAnd.contains)
 		]
 		
-		newMatcherRuleSpecification(TopOrMatcher::querySpecification,
+		Rules::newMatcherRuleSpecification(TopOrMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE_AND_DISAPPEAR,
 			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processor)))
 	}
@@ -324,7 +324,7 @@ class Pn2ScJobs {
 			doAllSnapshot("UpdatePlace")
 		]
 		
-		newMatcherRuleSpecification(PlaceMatcher::querySpecification,
+		Rules::newMatcherRuleSpecification(PlaceMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT,
 			newHashSet( newEnableJob( newRecordingJob( newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd))), 
 						newEnableJob( newRecordingJob( newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorDelete))),
@@ -363,7 +363,7 @@ class Pn2ScJobs {
 			doAllSnapshot("UpdateTransition")
 		]
 		
-		newMatcherRuleSpecification(TransitionMatcher::querySpecification,
+		Rules::newMatcherRuleSpecification(TransitionMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT,
 			newHashSet( newEnableJob( newRecordingJob( newStatelessJob( IncQueryActivationStateEnum::APPEARED, processorAdd))), 
 						newEnableJob( newRecordingJob( newStatelessJob( IncQueryActivationStateEnum::DISAPPEARED, processorDelete))),
@@ -396,7 +396,7 @@ class Pn2ScJobs {
 			doAllSnapshot("CP_PT_removed")
 		]
 		
-		newMatcherRuleSpecification(PostTMatcher::querySpecification,
+		Rules::newMatcherRuleSpecification(PostTMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE,
 			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd),
 				       newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorRemove)
@@ -427,7 +427,7 @@ class Pn2ScJobs {
 			doAllSnapshot("CP_TP_removed")
 		]
 		
-		newMatcherRuleSpecification(PreTMatcher::querySpecification,
+		Rules::newMatcherRuleSpecification(PreTMatcher::querySpecification,
 			DefaultActivationLifeCycle::DEFAULT_NO_UPDATE,
 			newHashSet(newStatelessJob(IncQueryActivationStateEnum::APPEARED, processorAdd),
 				       newStatelessJob(IncQueryActivationStateEnum::DISAPPEARED, processorRemove)
