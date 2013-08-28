@@ -20,7 +20,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.showWarnings>true</maven.compiler.showWarnings>
 		<xtend.compiler.version>2.4.2</xtend.compiler.version>
-		<incquery.update.site>http://download.eclipse.org/incquery/updates/milestone</incquery.update.site>
+		<incquery.update.site>http://download.eclipse.org/incquery/updates/integration</incquery.update.site>
 	</properties>
   <build>
     <plugins>
