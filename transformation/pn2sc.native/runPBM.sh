@@ -1,15 +1,27 @@
 #!/bin/bash
 
-path="/home/ubuntu/ttc13/git/TTC13-PN2SC-EIQ/transformation/instances/performance"
-cd $path
+# Usage: runPBM.sh executable modelpath outCSV
+# Parameters:
+#   executable: path of the eclipse application that runs one transformation
+#   modelpath: path of the folder, where .petrinet input models reside
+#   outCSV: name of the output CSV file
 
-/home/ubuntu/ttc13/git/TTC13-PN2SC-EIQ/transformation/pn2sc.native/cleanDir.sh $path
+executable="$1"
+modelpath="$2"
+outCSV="$3"
 
-for i in `ls -1rS *.petrinet`; do
+
+export DISPLAY=""
+
+#cleanDir.sh $path
+
+echo "Read,Transform,Save" > $outCSV
+
+for i in `ls -1rS ${modelpath}/*.petrinet`; do
 sourceFile=`basename ${i} .petrinet`
-/home/ubuntu/ttc13/git/TTC13-PN2SC-EIQ/transformation/pn2sc.native/product/pn2sc/eclipse \
-  -basePath $path -sourceFile $sourceFile \
-  -debugTransform 0 -changeDriven 0
+"$executable" \
+  -basePath $modelpath -sourceFile $sourceFile \
+  -debugTransform 0 -changeDriven 0 | cut -f 3,7,12 -d " " --output-delimiter "," >> $outCSV
 done
 
-read -p "Press [ENTER] key to close."
+#read -p "Press [ENTER] key to close."
