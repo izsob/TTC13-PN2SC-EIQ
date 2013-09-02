@@ -6,6 +6,13 @@
    <configIni use="default">
    </configIni>
 
+   <launcherArgs>
+      <programArgs>-XX:MaxPermSize=256m -Xms512m -Xmx2024m</programArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
    <launcher name="pn2sc">
       <solaris/>
       <win useIco="false">
@@ -13,11 +20,8 @@
       </win>
    </launcher>
 
-   <launcherArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
-   </launcherArgs>
-
-   <windowImages/>
+   <vm>
+   </vm>
 
    <plugins>
       <plugin id="PN2SCTrace"/>
