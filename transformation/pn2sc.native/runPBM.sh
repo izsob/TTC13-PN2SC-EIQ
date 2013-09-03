@@ -18,6 +18,7 @@ export DISPLAY=""
 echo "Read,Transform,Save" > $outCSV
 
 for i in `ls -1rS ${modelpath}/*.petrinet`; do
+echo "Processing input file ${i}" 
 sourceFile=`basename ${i} .petrinet`
 "$executable" \
   -basePath $modelpath -sourceFile $sourceFile \
