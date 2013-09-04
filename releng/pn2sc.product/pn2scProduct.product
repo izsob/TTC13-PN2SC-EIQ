@@ -31,6 +31,7 @@
       <plugin id="com.google.inject"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="javax.inject"/>
+      <plugin id="javax.xml"/>
       <plugin id="org.antlr.runtime" version="3.2.0.v201101311130"/>
       <plugin id="org.apache.log4j"/>
       <plugin id="org.eclipse.core.commands"/>
@@ -81,7 +82,6 @@
       <plugin id="org.eclipse.xtext.xbase"/>
       <plugin id="org.eclipse.xtext.xbase.lib"/>
       <plugin id="pn2sc"/>
-      <plugin id="pn2sc.common"/>
       <plugin id="pn2sc.incQuery"/>
    </plugins>
 

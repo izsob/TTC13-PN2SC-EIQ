@@ -13,6 +13,5 @@ Require-Bundle: org.eclipse.emf.ecore,
  PetriNets;bundle-version="1.0.0",
  StateCharts;bundle-version="1.0.0",
  PN2SCTrace;bundle-version="1.0.0",
- org.eclipse.incquery.runtime.evm;bundle-version="0.7.0",
- pn2sc.common;bundle-version="1.0.0"
+ org.eclipse.incquery.runtime.evm;bundle-version="0.7.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

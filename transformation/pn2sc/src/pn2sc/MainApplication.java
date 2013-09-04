@@ -22,18 +22,15 @@ import org.eclipse.incquery.runtime.evm.specific.event.IncQueryEventRealm;
 import org.eclipse.incquery.runtime.evm.specific.job.EnableJob;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
-import PetriNet.PetriNetPackage;
-
-import com.google.common.base.Stopwatch;
-
-import pn2sc.common.Config;
-import pn2sc.common.ManageRealm;
 import pn2sc.jobs.Pn2ScJobs;
 import pn2sc.queries.EquivContainsMatcher;
 import pn2sc.queries.EquivMatcher;
 import pn2sc.queries.TraceElementMatcher;
 import pn2sctrace.PN2SCTracemodel;
 import pn2sctrace.Pn2sctraceFactory;
+import PetriNet.PetriNetPackage;
+
+import com.google.common.base.Stopwatch;
 
 public class MainApplication implements IApplication {
 
@@ -169,7 +166,6 @@ public class MainApplication implements IApplication {
 
 	public void changePropagation() {
 		try {
-			ManageRealm.setUp();
 
 			/* setup change propagation rules */
 			rules = pn2ScJobs.getCPRules();
@@ -206,7 +202,6 @@ public class MainApplication implements IApplication {
 			// dispose schema
 			executionSchema.dispose();
 			rules.clear();
-			ManageRealm.tearDown();
 		} catch (IncQueryException e) {
 			e.printStackTrace();
 			System.exit(1);

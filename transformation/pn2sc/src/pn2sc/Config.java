@@ -1,4 +1,4 @@
-package pn2sc.common;
+package pn2sc;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
