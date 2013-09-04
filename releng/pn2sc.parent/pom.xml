@@ -10,7 +10,7 @@
     <module>../../metamodel/PN2SCTrace</module>
     <module>../../metamodel/StateCharts</module>
     <module>../../transformation/pn2sc</module>
-    <module>../../transformation/pn2sc.common</module>
+    
     <module>../../transformation/pn2sc.incQuery</module>
     <module>../../releng/pn2sc.product</module>
   </modules>
