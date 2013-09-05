@@ -1,0 +1,66 @@
+<html>
+<!--begin.rcode echo=FALSE
+library("plyr")
+
+dataset <- read.csv(file="/home/benedek/data/git/TTC13-PN2SC-EIQ/transformation/pn2sc.native/out.csv",head=TRUE,sep=",")
+
+end.rcode-->
+
+<head>
+<title>TTC13 PN2SC EMF-IncQuery Benchmark Results</title>
+</head>
+
+<body>
+<h2>Benchmark results of the PN2SC solution using EMF-IncQuery</h2>
+<h3>Raw tabular results</h3>
+
+<!--begin.rcode results='asis', echo=FALSE
+library("xtable")
+print(xtable(dataset), type="html")
+end.rcode-->
+
+<h3>Time Plots:</h3>
+
+Time is measured using System.nanoTime().
+
+<!--begin.rcode time_diagrams, fig.cap="Phase Running Time", echo=FALSE
+library('ggplot2')
+library('plyr')
+library('scales')
+library('reshape2')
+
+dataTime <- dataset[dataset$Type=="Time",]
+dataTime <- transform(dataTime, Value = (Value/1000))
+
+ggplot(data=dataTime, aes(x=Model, y=Value, stat="identity")) + 
+  geom_bar(position="dodge", stat="identity") +
+  facet_grid(Phase ~ .) +
+  ggtitle("Runtime of phases") +
+  xlab("Model name") + ylab("Time [us]")
+
+end.rcode-->
+
+<h3>Memory Plots:</h3>
+
+The memory usage is measured after the phases using <i>Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory()</i>. GC was NOT called before the memory query.
+
+<!--begin.rcode memory_diagrams, fig.cap="Memory Usage", echo=FALSE
+library('ggplot2')
+library('plyr')
+library('scales')
+library('reshape2')
+
+dataMemory <- dataset[dataset$Type=="Memory",]
+dataMemory <- transform(dataMemory, Value = (Value/1000000))
+
+ggplot(data=dataMemory, aes(x=Model, y=Value, stat="identity")) + 
+  geom_bar(position="dodge", stat="identity") +
+  facet_grid(Phase ~ .) +
+  ggtitle("Memory usage") +
+  xlab("Model name") + ylab("Used memory [GB]")
+
+
+end.rcode-->
+
+</body>
+</html>

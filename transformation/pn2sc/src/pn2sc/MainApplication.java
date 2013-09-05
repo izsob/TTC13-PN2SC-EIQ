@@ -55,7 +55,6 @@ public class MainApplication implements IApplication {
 		// process program arguments
 		config = new Config();
 		config.processParameters(args);
-		System.out.print(config.getSourceFile());
 
 		// load phase
 		startWatch();
@@ -84,10 +83,8 @@ public class MainApplication implements IApplication {
 		traceResource.save(null);
 		stateChartResource.save(null);
 		petriNetResource.save(null);
-		stopWatch("model save");
+		stopWatch("save");
 		
-		System.out.println("");
-
 
 		// Change driven demo
 		if (config.getChangeDriven() == 1) {
@@ -221,8 +218,9 @@ public class MainApplication implements IApplication {
 	public void stopWatch(String id) {
 		stopwatch.stop();
 		long readTime = stopwatch.elapsedTime(TimeUnit.MILLISECONDS);
-		System.out.print(" " + id + "Time: " + readTime + " ms ");
-		System.out.print(" " + id + "Mem: " + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory()) + " kbytes ");
+		//System.out.println("Model,Phase,Type,Value,Unit");
+		System.out.println(config.getSourceFile() + "," + id + ",Time," + readTime + ",ms");
+		System.out.println(config.getSourceFile() + "," + id + ",Memory," + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory()) + ",kbytes");
 	}
 
 	@Override
