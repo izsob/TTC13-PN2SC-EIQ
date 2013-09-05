@@ -221,7 +221,8 @@ public class MainApplication implements IApplication {
 	public void stopWatch(String id) {
 		stopwatch.stop();
 		long readTime = stopwatch.elapsedTime(TimeUnit.MILLISECONDS);
-		System.out.print(" " + id + ": " + readTime + " ms ");
+		System.out.print(" " + id + "Time: " + readTime + " ms ");
+		System.out.print(" " + id + "Mem: " + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory()) + " kbytes ");
 	}
 
 	@Override
