@@ -15,14 +15,14 @@ export DISPLAY=""
 
 #cleanDir.sh $path
 
-echo "Read,Transform,Save" > $outCSV
+echo "Model,Phase,Type,Value,Unit" > $outCSV
 
-for i in `ls -1rS ${modelpath}/*.petrinet`; do
+for i in `ls -1rS ${modelpath}/*.petrinet | head -n 5`; do
 echo "Processing input file ${i}" 
 sourceFile=`basename ${i} .petrinet`
 "$executable" \
   -basePath $modelpath -sourceFile $sourceFile \
-  -debugTransform 0 -changeDriven 0 | cut -f 3,7,12 -d " " --output-delimiter "," >> $outCSV
+  -debugTransform 0 -changeDriven 0 >> $outCSV
 done
 
 #read -p "Press [ENTER] key to close."
