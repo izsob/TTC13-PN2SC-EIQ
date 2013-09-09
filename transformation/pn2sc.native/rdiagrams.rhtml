@@ -31,7 +31,6 @@ library('reshape2')
 library('methods')
 
 dataTime <- dataset[dataset$Type=="Time",]
-dataTime <- transform(dataTime, Value = (Value/1000000))
 
 ggplot(data=dataTime, aes(x=Model, y=Value, stat="identity")) + 
   geom_bar(position="dodge", stat="identity") +
