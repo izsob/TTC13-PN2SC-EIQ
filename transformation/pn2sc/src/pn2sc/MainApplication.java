@@ -220,7 +220,7 @@ public class MainApplication implements IApplication {
 		long readTime = stopwatch.elapsedTime(TimeUnit.MILLISECONDS);
 		//System.out.println("Model,Phase,Type,Value,Unit");
 		System.out.println(config.getSourceFile() + "," + id + ",Time," + readTime + ",ms");
-		System.out.println(config.getSourceFile() + "," + id + ",Memory," + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory()) + ",kbytes");
+		System.out.println(config.getSourceFile() + "," + id + ",Memory," + (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory()) + ",bytes");
 	}
 
 	@Override
