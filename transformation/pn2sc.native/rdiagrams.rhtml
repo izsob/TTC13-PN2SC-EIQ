@@ -37,7 +37,8 @@ ggplot(data=dataTime, aes(x=Model, y=Value, stat="identity")) +
   geom_bar(position="dodge", stat="identity") +
   facet_grid(Phase ~ .) +
   ggtitle("Runtime of phases") +
-  xlab("Model name") + ylab("Time [ms]")
+  xlab("Model name") + ylab("Time [ms]") +
+  theme(text = element_text(size=20), axis.text.x = element_text(angle=90, vjust=0.3, hjust = 1)) 
 
 end.rcode-->
 
@@ -58,7 +59,8 @@ ggplot(data=dataMemory, aes(x=Model, y=Value, stat="identity")) +
   geom_bar(position="dodge", stat="identity") +
   facet_grid(Phase ~ .) +
   ggtitle("Memory usage") +
-  xlab("Model name") + ylab("Used memory [MB]")
+  xlab("Model name") + ylab("Used memory [MB]") +
+  theme(text = element_text(size=20), axis.text.x = element_text(angle=90, vjust=0.3, hjust = 1)) 
 
 
 end.rcode-->
