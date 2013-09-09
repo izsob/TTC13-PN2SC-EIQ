@@ -32,11 +32,16 @@ library('methods')
 
 dataTime <- dataset[dataset$Type=="Time",]
 
+minValue <- min(1,dataTime$Value)
+maxValue <- ceiling(max(dataTime$Value))
 ggplot(data=dataTime, aes(x=Model, y=Value, stat="identity")) + 
   geom_bar(position="dodge", stat="identity") +
   facet_grid(Phase ~ .) +
   ggtitle("Runtime of phases") +
   xlab("Model name") + ylab("Time [ms]") +
+  scale_y_log10( #limits=c(minValue,maxValue),
+    breaks = round(10^seq(log10(minValue), log10(maxValue), by=((log10(maxValue)-log10(minValue))/6)),3),
+    labels = formatC(round(10^seq(log10(minValue), log10(maxValue), by=((log10(maxValue)-log10(minValue))/6)),3),digits=0,format="f")) + 
   theme(text = element_text(size=20), axis.text.x = element_text(angle=90, vjust=0.3, hjust = 1)) 
 
 end.rcode-->
@@ -54,11 +59,16 @@ library('reshape2')
 dataMemory <- dataset[dataset$Type=="Memory",]
 dataMemory <- transform(dataMemory, Value = (Value/1000000))
 
+minValue <- min(1,dataMemory$Value)
+maxValue <- ceiling(max(dataMemory$Value))
 ggplot(data=dataMemory, aes(x=Model, y=Value, stat="identity")) + 
   geom_bar(position="dodge", stat="identity") +
   facet_grid(Phase ~ .) +
   ggtitle("Memory usage") +
   xlab("Model name") + ylab("Used memory [MB]") +
+  scale_y_log10( #limits=c(minValue,maxValue),
+    breaks = round(10^seq(log10(minValue), log10(maxValue), by=((log10(maxValue)-log10(minValue))/6)),3),
+    labels = formatC(round(10^seq(log10(minValue), log10(maxValue), by=((log10(maxValue)-log10(minValue))/6)),3),digits=0,format="f")) + 
   theme(text = element_text(size=20), axis.text.x = element_text(angle=90, vjust=0.3, hjust = 1)) 
 
 
