@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.incquery.runtime;bundle-version="0.7.0",
  org.eclipse.incquery.runtime.evm;bundle-version="0.7.0",
  PN2SCTrace;bundle-version="0.1.0",
- org.eclipse.core.databinding
+ org.eclipse.core.databinding,
+ org.eclipse.viatra2.emf.runtime
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,

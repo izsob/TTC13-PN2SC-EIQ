@@ -1,38 +1,25 @@
 package pn2sc;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine;
 import org.eclipse.incquery.runtime.api.IncQueryEngine;
-import org.eclipse.incquery.runtime.evm.api.EventDrivenVM;
-import org.eclipse.incquery.runtime.evm.api.ExecutionSchema;
-import org.eclipse.incquery.runtime.evm.api.Job;
-import org.eclipse.incquery.runtime.evm.api.RuleSpecification;
-import org.eclipse.incquery.runtime.evm.api.Scheduler.ISchedulerFactory;
-import org.eclipse.incquery.runtime.evm.specific.Schedulers;
-import org.eclipse.incquery.runtime.evm.specific.event.IncQueryEventRealm;
-import org.eclipse.incquery.runtime.evm.specific.job.EnableJob;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
 import pn2sc.jobs.Pn2ScJobs;
-import pn2sc.queries.EquivContainsMatcher;
-import pn2sc.queries.EquivMatcher;
-import pn2sc.queries.TraceElementMatcher;
 import pn2sctrace.PN2SCTracemodel;
 import pn2sctrace.Pn2sctraceFactory;
-import PetriNet.PetriNetPackage;
 
 import com.google.common.base.Stopwatch;
 
 public class MainApplication implements IApplication {
+
+
 
 	private Resource stateChartResource;
 	private Resource traceResource;
@@ -43,9 +30,6 @@ public class MainApplication implements IApplication {
 	private ResourceSetImpl resourceSet;
 	private Stopwatch stopwatch;
 	private AdvancedIncQueryEngine engine;
-	private ISchedulerFactory schedulerFactory;
-	private Set<RuleSpecification<?>> rules;
-	private ExecutionSchema executionSchema;
 	private Pn2ScJobs pn2ScJobs;
 
 	@Override
@@ -66,16 +50,10 @@ public class MainApplication implements IApplication {
 		startWatch();
 
 		// create empty rule set and helper job holder
-		rules = new HashSet<RuleSpecification<?>>();
-		pn2ScJobs = new Pn2ScJobs(engine, petriNetResource, stateChartResource, traceResource, config.getBasePath(), config.getDebugTransform());
-		pn2ScJobs.setMatchers(
-				EquivMatcher.on(engine), 
-				EquivContainsMatcher.on(engine), 
-				TraceElementMatcher.on(engine));
+		pn2ScJobs = new Pn2ScJobs(engine, petriNetResource, stateChartResource, traceResource);
 
 		// perform initialisation and then transformation
-		initialisation();
-		transformPn2Sc();
+		pn2ScJobs.transformPn2Sc();
 		stopWatch("transformation");
 
 		// save the models
@@ -88,7 +66,9 @@ public class MainApplication implements IApplication {
 
 		// Change driven demo
 		if (config.getChangeDriven() == 1) {
-			changePropagation();
+//			changePropagation();
+			System.out.println("Change driven code turned off");
+			return -1;
 		}
 		return IApplication.EXIT_OK;
 	}
@@ -127,83 +107,51 @@ public class MainApplication implements IApplication {
 			System.exit(1);
 		}
 		
-		//schedulerFactory = UpdateCompleteBasedScheduler.getIQBaseSchedulerFactory(engine);
-		schedulerFactory = Schedulers.getIQEngineSchedulerFactory(engine); 
-		
 	}
 
-	/*
-	 * Run the initialisation phase of the transformation.
-	 */
-	public void initialisation() {
-		// place->OR mapping
-		rules = pn2ScJobs.getInitialisationRules();
-
-		// execute rule engine
-		executionSchema = EventDrivenVM.createExecutionSchema(IncQueryEventRealm.create(engine), schedulerFactory, rules);
-		executionSchema.dispose();
-		rules.clear();
-	}
-
-	public void transformPn2Sc() {
-		// execute AND and OR rules
-		rules = pn2ScJobs.getAndOrRules();
-
-		executionSchema = EventDrivenVM.createExecutionSchema(IncQueryEventRealm.create(engine), schedulerFactory, rules);
-		executionSchema.dispose();
-		rules.clear();
-		
-		// clean orphaned root ORs; and create StateChart root
-		rules = pn2ScJobs.getFinalisationRules();
-
-		executionSchema = EventDrivenVM.createExecutionSchema(IncQueryEventRealm.create(engine), schedulerFactory, rules);
-		executionSchema.dispose();
-		rules.clear();
-	}
-
-	public void changePropagation() {
-		try {
-
-			/* setup change propagation rules */
-			rules = pn2ScJobs.getCPRules();
-
-			/* setup rule engine */
-			// add name feature to watch updates
-			HashSet<EStructuralFeature> features = new HashSet<EStructuralFeature>();
-			features.add(PetriNetPackage.Literals.NAMED_ELEMENT__NAME);
-			engine.getBaseIndex().registerEStructuralFeatures(features);
-			//enginePN.getLogger().setLevel(Level.DEBUG);
-			
-			// create execution schema, set enablejobs to false before it, and true after
-			for(RuleSpecification<?> ruleSpec : rules) {
-				for(Job<?> job : ruleSpec.getJobs().values()) {
-					if (job instanceof EnableJob) {
-						((EnableJob<?>) job).setEnabled(false);
-					}
-				}
-			}
-			executionSchema = EventDrivenVM.createExecutionSchema(IncQueryEventRealm.create(engine), schedulerFactory, rules);
-			for(RuleSpecification<?> ruleSpec : rules) {
-				for(Job<?> job : ruleSpec.getJobs().values()) {
-					if (job instanceof EnableJob) {
-						((EnableJob<?>) job).setEnabled(true);
-					}
-				}
-			}
-			//Context context = executionSchema.getContext();
-			//context.put(EnableableJob.EXECUTE_JOB, false);
-
-			/* modify instance model */
-			pn2ScJobs.manipulate();
-			
-			// dispose schema
-			executionSchema.dispose();
-			rules.clear();
-		} catch (IncQueryException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
-	}
+//	public void changePropagation() {
+//		try {
+//
+//			/* setup change propagation rules */
+//			rules = pn2ScJobs.getCPRules();
+//
+//			/* setup rule engine */
+//			// add name feature to watch updates
+//			HashSet<EStructuralFeature> features = new HashSet<EStructuralFeature>();
+//			features.add(PetriNetPackage.Literals.NAMED_ELEMENT__NAME);
+//			engine.getBaseIndex().registerEStructuralFeatures(features);
+//			//enginePN.getLogger().setLevel(Level.DEBUG);
+//			
+//			// create execution schema, set enablejobs to false before it, and true after
+//			for(RuleSpecification<?> ruleSpec : rules) {
+//				for(Job<?> job : ruleSpec.getJobs().values()) {
+//					if (job instanceof EnableJob) {
+//						((EnableJob<?>) job).setEnabled(false);
+//					}
+//				}
+//			}
+//			executionSchema = EventDrivenVM.createExecutionSchema(IncQueryEventRealm.create(engine), schedulerFactory, rules);
+//			for(RuleSpecification<?> ruleSpec : rules) {
+//				for(Job<?> job : ruleSpec.getJobs().values()) {
+//					if (job instanceof EnableJob) {
+//						((EnableJob<?>) job).setEnabled(true);
+//					}
+//				}
+//			}
+//			//Context context = executionSchema.getContext();
+//			//context.put(EnableableJob.EXECUTE_JOB, false);
+//
+//			/* modify instance model */
+//			pn2ScJobs.manipulate();
+//			
+//			// dispose schema
+//			executionSchema.dispose();
+//			rules.clear();
+//		} catch (IncQueryException e) {
+//			e.printStackTrace();
+//			System.exit(1);
+//		}
+//	}
 
 	/*
 	 * Start measuring time
