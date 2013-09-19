@@ -2,12 +2,12 @@ package pn2sc.jobs
 
 import PetriNet.NamedElement
 import PetriNet.Net
+import PetriNet.PetriNetPackage
 import PetriNet.Place
 import PetriNet.Transition
 import java.util.ArrayList
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra2.emf.runtime.modelmanipulation.IModelManipulations
 import org.eclipse.viatra2.emf.runtime.modelmanipulation.SimpleModelManipulations
 import org.eclipse.viatra2.emf.runtime.rules.TransformationRuleGroup
@@ -37,8 +37,6 @@ import statecharts.Statechart
 import statecharts.StatechartsPackage
 
 import static com.google.common.base.Predicates.*
-import static org.eclipse.viatra2.emf.runtime.rules.BatchTransformationRule.*
-import PetriNet.PetriNetPackage
 
 class Pn2ScJobs {
 	PN2SCTracemodel traceModel
@@ -54,7 +52,7 @@ class Pn2ScJobs {
 	extension Pn2sctracePackage tracePackage = Pn2sctracePackage.eINSTANCE
 	
 	
-	new(IncQueryEngine engine, Resource petriNetResource, Resource stateChartResource, Resource traceModelResource) {
+	new(Resource petriNetResource, Resource stateChartResource, Resource traceModelResource) {
 		this.stateChartResource = stateChartResource
 		this.petriNet = petriNetResource.contents.head as Net
 		this.stateChart = stateChartResource.contents.head as Statechart
@@ -62,7 +60,7 @@ class Pn2ScJobs {
 		
 		transformation = new BatchTransformation(petriNetResource.resourceSet)
 		statements = new TransformationStatements(transformation)
-		manipulation = new SimpleModelManipulations(engine)
+		manipulation = new SimpleModelManipulations
 	}
 	
 	/**
@@ -71,7 +69,7 @@ class Pn2ScJobs {
 	val createMapPlaceRuleSpecification = createRule(PlaceMatcher::querySpecification) [
 		// create base b with b.name=p.name; and the state or, where or.contains={b}
 		var or = stateChartResource.create(OR) as OR
-		var basic = OR.create(compound_Contains) as Basic 
+		var basic = or.createChild(compound_Contains, basic) as Basic 
 		basic.set(state_Name, p.name)///name = p.name
 		// create trace from place to or
 		createTrace(p, or)
@@ -92,7 +90,7 @@ class Pn2ScJobs {
 	 * Create "next" edges in the StateChart between elements connected in the PetriNet. 
 	 */
 	val createNextStateRuleSpecification = createRule(NextStateMatcher::querySpecification) [
-		state1.add(state_Next, state2)
+		state1.addTo(state_Next, state2)
 	]
 	
 	/**
@@ -119,7 +117,7 @@ class Pn2ScJobs {
 			
 		// add new OR and AND to the StateChart
 		val newP = stateChartResource.create(OR) as OR
-		val newA = newP.create(compound_Contains, AND) as AND
+		val newA = newP.createChild(compound_Contains, AND) as AND
 		
 		// add children of AND (equiv(p)) to the new AND state (newA)
 		placesSet.forEach[equiv(it).moveTo(newA.contains)]
@@ -142,8 +140,8 @@ class Pn2ScJobs {
 		val q = t.prep.head
 		val r = t.postp.head
 		// merge transitions of post-place (r) into pre-place (q)
-		q.add(place_Pret, r.pret)
-		q.add(place_Postt, r.postt)
+		q.addTo(place_Pret, r.pret)
+		q.addTo(place_Postt, r.postt)
 		// add new OR to the StateChart
 		val newP = stateChartResource.create(OR) as OR 
 		//stf.createOR()
@@ -192,7 +190,7 @@ class Pn2ScJobs {
 	 */
 	val createTopand = createRule(TopOrMatcher::querySpecification) [
 		val topSc = stateChartResource.create(statechart) as Statechart
-		val topAnd = topSc.create(statechart_TopState, AND) as AND
+		val topAnd = topSc.createChild(statechart_TopState, AND) as AND
 		orState.moveTo(topAnd.contains)
 	]
 	
@@ -221,7 +219,7 @@ class Pn2ScJobs {
 	 * Create a trace element between a NamedElement and State
 	 */
 	def createTrace(NamedElement source, State target) {
-		var aTrace = traceModel.create(PN2SCTracemodel_Contains, mapTrace) as MapTrace
+		var aTrace = traceModel.createChild(PN2SCTracemodel_Contains, mapTrace) as MapTrace
 		aTrace.set(mapTrace_Source, source)
 		aTrace.set(mapTrace_Target, target)
 	}

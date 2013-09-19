@@ -7,9 +7,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine;
-import org.eclipse.incquery.runtime.api.IncQueryEngine;
-import org.eclipse.incquery.runtime.exception.IncQueryException;
 
 import pn2sc.jobs.Pn2ScJobs;
 import pn2sctrace.PN2SCTracemodel;
@@ -19,8 +16,6 @@ import com.google.common.base.Stopwatch;
 
 public class MainApplication implements IApplication {
 
-
-
 	private Resource stateChartResource;
 	private Resource traceResource;
 
@@ -29,7 +24,6 @@ public class MainApplication implements IApplication {
 	private PN2SCTracemodel traceModel;
 	private ResourceSetImpl resourceSet;
 	private Stopwatch stopwatch;
-	private AdvancedIncQueryEngine engine;
 	private Pn2ScJobs pn2ScJobs;
 
 	@Override
@@ -50,7 +44,7 @@ public class MainApplication implements IApplication {
 		startWatch();
 
 		// create empty rule set and helper job holder
-		pn2ScJobs = new Pn2ScJobs(engine, petriNetResource, stateChartResource, traceResource);
+		pn2ScJobs = new Pn2ScJobs(petriNetResource, stateChartResource, traceResource);
 
 		// perform initialisation and then transformation
 		pn2ScJobs.transformPn2Sc();
@@ -97,16 +91,6 @@ public class MainApplication implements IApplication {
 		traceResource = resourceSet.createResource(traceURI);
 		traceModel = initTraceModel();
 		traceResource.getContents().add(traceModel);
-
-		// start engine for the resources
-		try {
-			engine = AdvancedIncQueryEngine.from(IncQueryEngine.on(resourceSet));
-			//new GroupOfFilePn2sc().prepare(engine);
-		} catch (IncQueryException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
-		
 	}
 
 //	public void changePropagation() {

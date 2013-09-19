@@ -80,7 +80,8 @@ class ChangePropagation {
 		this.traceModel = traceModelResource.contents.head as PN2SCTracemodel
 		this.snapshotNumber = 0
 		
-		manipulation = new SimpleModelManipulations(engine)
+		//TODO this needs to be updated
+		manipulation = new SimpleModelManipulations
 	}
 	
 	/*

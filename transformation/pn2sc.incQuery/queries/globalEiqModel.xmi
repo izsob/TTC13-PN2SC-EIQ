@@ -1031,10 +1031,10 @@
         <ePackage href="http://uam.es/PetriNets#/"/>
       </packageImport>
       <packageImport>
-        <ePackage href="http://uam.es/StateCharts#/"/>
+        <ePackage href="http://pn2sctrace/1.0#/"/>
       </packageImport>
       <packageImport>
-        <ePackage href="http://pn2sctrace/1.0#/"/>
+        <ePackage href="http://uam.es/StateCharts#/"/>
       </packageImport>
     </importPackages>
   </eMFPatternLanguage:PatternModel>
