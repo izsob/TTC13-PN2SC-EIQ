@@ -11,8 +11,9 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.viatra2.emf.runtime.modelmanipulation.IModelManipulations
 import org.eclipse.viatra2.emf.runtime.modelmanipulation.SimpleModelManipulations
 import org.eclipse.viatra2.emf.runtime.rules.TransformationRuleGroup
-import org.eclipse.viatra2.emf.runtime.rules.TransformationStatements
-import org.eclipse.viatra2.emf.runtime.transformation.BatchTransformation
+import org.eclipse.viatra2.emf.runtime.rules.batch.BatchTransformationRuleFactory
+import org.eclipse.viatra2.emf.runtime.rules.batch.BatchTransformationStatements
+import org.eclipse.viatra2.emf.runtime.transformation.batch.BatchTransformation
 import pn2sc.queries.AndPrecondMatcher
 import pn2sc.queries.EmptyOrMatcher
 import pn2sc.queries.EquivContainsMatcher
@@ -44,8 +45,9 @@ class Pn2ScJobs {
 	Net petriNet
 	Resource stateChartResource
 	
+	extension BatchTransformationRuleFactory ruleFactory = new BatchTransformationRuleFactory
 	extension BatchTransformation transformation
-	extension TransformationStatements statements
+	extension BatchTransformationStatements statements
 	extension IModelManipulations manipulation 
 	extension PetriNetPackage petriPackage = PetriNetPackage.eINSTANCE
 	extension StatechartsPackage chartPackage = StatechartsPackage.eINSTANCE
@@ -59,8 +61,8 @@ class Pn2ScJobs {
 		this.traceModel = traceModelResource.contents.head as PN2SCTracemodel
 		
 		transformation = new BatchTransformation(petriNetResource.resourceSet)
-		statements = new TransformationStatements(transformation)
-		manipulation = new SimpleModelManipulations
+		statements = new BatchTransformationStatements(transformation)
+		manipulation = new SimpleModelManipulations(transformation.iqEngine)
 	}
 	
 	/**
@@ -120,7 +122,7 @@ class Pn2ScJobs {
 		val newA = newP.createChild(compound_Contains, AND) as AND
 		
 		// add children of AND (equiv(p)) to the new AND state (newA)
-		placesSet.forEach[equiv(it).moveTo(newA.contains)]
+		placesSet.forEach[equiv(it).moveTo(newA, compound_Contains)]
 		// remove traces of places from TraceModel
 		placesSet.forEach[removeTrace]
 		// add new place --> OR (newP) to TraceModel
@@ -145,15 +147,15 @@ class Pn2ScJobs {
 		// add new OR to the StateChart
 		val newP = stateChartResource.create(OR) as OR 
 		//stf.createOR()
-		newP.moveTo(stateChartResource.contents)
+		newP.moveTo(stateChartResource)
 		
 		val moveChildrenRule = createRule(EquivContainsMatcher::querySpecification) [
-			state.moveTo(newP.contains)
+			state.moveTo(newP, compound_Contains)
 		]
 		// add children elements to OR of the StateChart
 		moveChildrenRule.forall("namedElement" -> q) // add equiv(q).contains
 		moveChildrenRule.forall("namedElement" -> r) // add equiv(r).contains
-		equiv(t).moveTo(newP.contains) // add the hyperedge ("equiv(t)") also
+		equiv(t).moveTo(newP, compound_Contains) // add the hyperedge ("equiv(t)") also
 		// remove traces of q, transition and r
 		removeTrace(q)
 		removeTrace(t)
@@ -191,7 +193,7 @@ class Pn2ScJobs {
 	val createTopand = createRule(TopOrMatcher::querySpecification) [
 		val topSc = stateChartResource.create(statechart) as Statechart
 		val topAnd = topSc.createChild(statechart_TopState, AND) as AND
-		orState.moveTo(topAnd.contains)
+		orState.moveTo(topAnd, compound_Contains)
 	]
 	
 	/**
