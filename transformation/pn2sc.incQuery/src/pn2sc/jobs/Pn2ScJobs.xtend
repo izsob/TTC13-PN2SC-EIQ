@@ -37,8 +37,6 @@ import statecharts.State
 import statecharts.Statechart
 import statecharts.StatechartsPackage
 
-import static com.google.common.base.Predicates.*
-
 class Pn2ScJobs {
 	PN2SCTracemodel traceModel
 	Statechart stateChart
@@ -153,8 +151,8 @@ class Pn2ScJobs {
 			state.moveTo(newP, compound_Contains)
 		]
 		// add children elements to OR of the StateChart
-		moveChildrenRule.forall("namedElement" -> q) // add equiv(q).contains
-		moveChildrenRule.forall("namedElement" -> r) // add equiv(r).contains
+		moveChildrenRule.fireAllCurrent("namedElement" -> q) // add equiv(q).contains
+		moveChildrenRule.fireAllCurrent("namedElement" -> r) // add equiv(r).contains
 		equiv(t).moveTo(newP, compound_Contains) // add the hyperedge ("equiv(t)") also
 		// remove traces of q, transition and r
 		removeTrace(q)
@@ -208,11 +206,11 @@ class Pn2ScJobs {
 	
 	def transformPn2Sc() {
 		// place->OR mapping
-		initialisationRules.until(alwaysFalse)
+		initialisationRules.fireWhilePossible
 		// execute AND and OR rules
-		andOrRules.until(alwaysFalse)
+		andOrRules.fireWhilePossible
 		// clean orphaned root ORs; and create StateChart root
-		finalisationRules.until(alwaysFalse)
+		finalisationRules.fireWhilePossible
 	}
 	
 	
