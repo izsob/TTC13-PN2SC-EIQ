@@ -11,8 +11,8 @@ import org.eclipse.incquery.runtime.api.IQuerySpecification;
 import org.eclipse.incquery.runtime.api.IncQueryEngine;
 import org.eclipse.incquery.runtime.api.impl.BaseMatcher;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
+import org.eclipse.incquery.runtime.matchers.tuple.Tuple;
 import org.eclipse.incquery.runtime.rete.misc.DeltaMonitor;
-import org.eclipse.incquery.runtime.rete.tuple.Tuple;
 import pn2sc.queries.AndPrecondMatch;
 import pn2sc.queries.util.AndPrecondQuerySpecification;
 
@@ -31,7 +31,7 @@ import pn2sc.queries.util.AndPrecondQuerySpecification;
  * 	// T is the transition with at least 2 pre-places
  * 	Transition.prep(T, P);
  * 	countPrePlaces == count find postT(_PX, T);
- * 	check(countPrePlaces {@literal >}= 2);	
+ * 	check(countPrePlaces {@literal >}= 2);
  * 	neg find nonCommonTPost(T);
  * } or {
  * 	// T is the transition with at least 2 post places

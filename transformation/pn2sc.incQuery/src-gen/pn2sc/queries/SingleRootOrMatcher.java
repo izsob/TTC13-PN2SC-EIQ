@@ -5,7 +5,7 @@ import org.eclipse.incquery.runtime.api.IQuerySpecification;
 import org.eclipse.incquery.runtime.api.IncQueryEngine;
 import org.eclipse.incquery.runtime.api.impl.BaseMatcher;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
-import org.eclipse.incquery.runtime.rete.tuple.Tuple;
+import org.eclipse.incquery.runtime.matchers.tuple.Tuple;
 import pn2sc.queries.SingleRootOrMatch;
 import pn2sc.queries.util.SingleRootOrQuerySpecification;
 

@@ -36,6 +36,7 @@ import statecharts.OR
 import statecharts.State
 import statecharts.Statechart
 import statecharts.StatechartsPackage
+import pn2sc.queries.Pn2scMatchers
 
 class Pn2ScJobs {
 	PN2SCTracemodel traceModel
@@ -47,6 +48,7 @@ class Pn2ScJobs {
 	extension BatchTransformation transformation
 	extension BatchTransformationStatements statements
 	extension IModelManipulations manipulation 
+	extension Pn2scMatchers matchers
 	extension PetriNetPackage petriPackage = PetriNetPackage.eINSTANCE
 	extension StatechartsPackage chartPackage = StatechartsPackage.eINSTANCE
 	extension Pn2sctracePackage tracePackage = Pn2sctracePackage.eINSTANCE
@@ -228,8 +230,8 @@ class Pn2ScJobs {
 	 * Delete the trace of a NamedElement
 	 */
 	def removeTrace(NamedElement source) {
-		var mapTrace = TraceElementMatcher::querySpecification.<TraceElementMatch, TraceElementMatcher>find("smElement" -> source).trace
-//		var mapTrace = traceElementMatcher.getOneArbitraryMatch(source, null).trace
+//		var mapTrace = TraceElementMatcher::querySpecification.<TraceElementMatch, TraceElementMatcher>find("smElement" -> source).trace
+		var mapTrace = traceElementMatcher.getOneArbitraryMatch(source, null).trace
 		mapTrace.remove
 	}
 	
@@ -237,8 +239,8 @@ class Pn2ScJobs {
 	 * The equiv function (namedElement->state)
 	 */
 	def equiv(NamedElement namedElement) {
-		EquivMatcher::querySpecification.<EquivMatch, EquivMatcher>find("namesElement" -> namedElement).state
-		//equivMatcher.getOneArbitraryMatch(namedElement, null).state
+//		EquivMatcher::querySpecification.<EquivMatch, EquivMatcher>find("namesElement" -> namedElement).state
+		equivMatcher.getOneArbitraryMatch(namedElement, null).state
 	}
 	
 	/**

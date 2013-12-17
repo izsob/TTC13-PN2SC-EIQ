@@ -73,7 +73,7 @@ pattern andPrecond(P:Place, T:Transition) {
 	// T is the transition with at least 2 pre-places
 	Transition.prep(T, P);
 	countPrePlaces == count find postT(_PX, T);
-	check(countPrePlaces >= 2);	
+	check(countPrePlaces >= 2);
 	neg find nonCommonTPost(T);
 } or {
 	// T is the transition with at least 2 post places

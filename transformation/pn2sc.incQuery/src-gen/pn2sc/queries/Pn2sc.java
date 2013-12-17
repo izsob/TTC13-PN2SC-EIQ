@@ -90,33 +90,33 @@ public final class Pn2sc extends BaseGeneratedPatternGroup {
   private static Pn2sc INSTANCE;
   
   private Pn2sc() throws IncQueryException {
-    querySpecifications.add(EmptyOrMatcher.querySpecification());
-    querySpecifications.add(PreTMatcher.querySpecification());
-    querySpecifications.add(RootOrMatcher.querySpecification());
-    querySpecifications.add(TransitionMatcher.querySpecification());
     querySpecifications.add(CommonPostTMatcher.querySpecification());
     querySpecifications.add(AndPrecondMatcher.querySpecification());
-    querySpecifications.add(NonCommonTPostMatcher.querySpecification());
-    querySpecifications.add(HasContainsMatcher.querySpecification());
-    querySpecifications.add(TransitionWithTwoPrePlacesMatcher.querySpecification());
-    querySpecifications.add(PlaceMatcher.querySpecification());
-    querySpecifications.add(MoreThanOnePrePlaceMatcher.querySpecification());
-    querySpecifications.add(EquivMatcher.querySpecification());
-    querySpecifications.add(UniquePrePlaceMatcher.querySpecification());
-    querySpecifications.add(EquivContainsMatcher.querySpecification());
-    querySpecifications.add(SingleRootOrMatcher.querySpecification());
-    querySpecifications.add(UniquePostPlaceMatcher.querySpecification());
-    querySpecifications.add(TranWithTwoPostPlacesMatcher.querySpecification());
+    querySpecifications.add(PreTMatcher.querySpecification());
     querySpecifications.add(OrPrecondMatcher.querySpecification());
-    querySpecifications.add(MoreThanOnePostPlaceMatcher.querySpecification());
+    querySpecifications.add(NonCommonTPostMatcher.querySpecification());
     querySpecifications.add(PrePostPlacesMatcher.querySpecification());
-    querySpecifications.add(TopOrMatcher.querySpecification());
-    querySpecifications.add(NextStateMatcher.querySpecification());
-    querySpecifications.add(PostTMatcher.querySpecification());
-    querySpecifications.add(CommonPreTMatcher.querySpecification());
-    querySpecifications.add(HasRcontainsMatcher.querySpecification());
-    querySpecifications.add(NonCommonTPreMatcher.querySpecification());
     querySpecifications.add(TraceElementMatcher.querySpecification());
+    querySpecifications.add(RootOrMatcher.querySpecification());
+    querySpecifications.add(HasRcontainsMatcher.querySpecification());
+    querySpecifications.add(NextStateMatcher.querySpecification());
+    querySpecifications.add(EmptyOrMatcher.querySpecification());
+    querySpecifications.add(CommonPreTMatcher.querySpecification());
+    querySpecifications.add(TranWithTwoPostPlacesMatcher.querySpecification());
+    querySpecifications.add(NonCommonTPreMatcher.querySpecification());
+    querySpecifications.add(UniquePostPlaceMatcher.querySpecification());
+    querySpecifications.add(MoreThanOnePostPlaceMatcher.querySpecification());
+    querySpecifications.add(TopOrMatcher.querySpecification());
+    querySpecifications.add(UniquePrePlaceMatcher.querySpecification());
+    querySpecifications.add(TransitionMatcher.querySpecification());
+    querySpecifications.add(EquivContainsMatcher.querySpecification());
+    querySpecifications.add(PlaceMatcher.querySpecification());
+    querySpecifications.add(SingleRootOrMatcher.querySpecification());
+    querySpecifications.add(HasContainsMatcher.querySpecification());
+    querySpecifications.add(EquivMatcher.querySpecification());
+    querySpecifications.add(PostTMatcher.querySpecification());
+    querySpecifications.add(TransitionWithTwoPrePlacesMatcher.querySpecification());
+    querySpecifications.add(MoreThanOnePrePlaceMatcher.querySpecification());
     
   }
 }
